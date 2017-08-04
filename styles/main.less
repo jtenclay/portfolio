@@ -1,0 +1,125 @@
+@import (inline) "./normalize.css";
+@bg-color: #EBFFF3;
+@text-color: #222624;
+@link-color: #3d7f58;
+
+body {
+	background-color: @bg-color;
+	font-family: "Atlas Grotesk", Helvetica, Arial, sans-serif;
+	margin: 6rem;
+	font-size: 1.5rem;
+	color: @text-color;
+	line-height: 1.5;
+}
+
+p {
+	margin: 1rem 0;
+}
+
+a {
+	color: @text-color;
+	text-decoration: none;
+	box-shadow: inset 0 -2px 0 @link-color;
+	&:hover {
+		color: @link-color;
+	}
+}
+
+#proj-bg-images {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: .3;
+	z-index: -10;
+	div {
+		display: none;
+		width: 100%;
+		height: 100%;
+	}
+}
+
+.show-proj-img {
+	display: block !important;
+}
+
+section {
+/*	border-bottom: 1px solid #222624; */
+	margin-bottom: 2rem;
+	&:after {
+		content: " "; /* Older browser do not support empty content */
+		visibility: hidden;
+		display: block;
+		height: 0;
+		clear: both;
+	}
+}
+
+.left-gutter {
+	width: 35%;
+	float: left;
+	text-align: right;
+	p {
+		margin-right: 2rem;
+	}
+}
+
+.right-content {
+	width: 65%;
+	float: left;
+	div {
+		margin-bottom: 3rem;
+	}
+	ul {
+		margin: 1rem 2rem;
+		padding: 0;
+		li {
+			list-style: none;
+			font-size: 1.25rem;
+			margin-bottom: 1rem;
+		}
+	}
+}
+
+
+
+/* scrolling backgrounds */
+
+	@-webkit-keyframes backgroundScroll {
+		from {
+			background-position: 0 0;
+		}
+		to {
+			background-position: -99999999px 55555555px;
+		}
+	}
+
+	@keyframes backgroundScroll {
+		from {
+			background-position: 0 0;
+		}
+		to {
+			background-position: -99999999px 55555555px;
+		}
+	}
+
+	#proj-bg-images div {
+		width: 100%;
+		background: url(../img/banchan.png) repeat;
+		-webkit-animation: backgroundScroll 9999999s linear infinite;
+		/* Adjust timing here according to speed required */
+		animation: backgroundScroll 9999999s linear infinite; 
+	}
+
+	div#proj-img-font {
+		background: url(../img/banchan.png) repeat;
+	}
+
+	div#proj-img-plants {
+		background: url(../img/plants.svg) repeat;
+	}
+
+	div#proj-img-vg {
+		background: url(../img/nya-n.png) repeat;
+	}
