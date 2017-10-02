@@ -16,8 +16,3 @@ for (i = 0; i < arrayOfLinks.length; i++) {
 	arrayOfLinks[i].addEventListener("mouseover",showBgImage);
 	arrayOfLinks[i].addEventListener("mouseout",hideBgImage);
 };
-
-
-
-
-
