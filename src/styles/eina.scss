@@ -9,18 +9,94 @@
 	}
 
 	.n.w {
-		background: url('../../img/eina-e.svg') no-repeat 0 0 / 50% 50%;
+		background: url('../../img/eina-e.svg') no-repeat 75% 75% / 25% 25%;
+		&.init {
+			animation: eina-slide-n-w 2.2s linear;
+			animation-fill-mode: forwards;
+		}
 	}
 
 	.n.e {
-		background: url('../../img/eina-i.svg') no-repeat 100% 0 / 50% 50%;
+		background: url('../../img/eina-i.svg') no-repeat 75% 0 / 25% 25%;
+		&.init {
+			animation: eina-slide-n-e 2.2s linear;
+			animation-fill-mode: forwards;
+		}
 	}
 
 	.s.w {
-		background: url('../../img/eina-n.svg') no-repeat 0 100% / 50% 50%;
+		background: url('../../img/eina-n.svg') no-repeat 0 75% / 25% 25%;
+		&.init {
+			animation: eina-slide-s-w 2.2s linear;
+			animation-fill-mode: forwards;
+		}
 	}
 
 	.s.e {
-		background: url('../../img/eina-a.svg') no-repeat 100% 100% / 50% 50%;
+		background: url('../../img/eina-a.svg') no-repeat 75% 75% / 25% 25%;
+		&.init {
+			animation: eina-slide-s-e 2.2s linear;
+			animation-fill-mode: forwards;
+		}
 	}
+}
+
+@keyframes eina-slide-n-w {
+  0% {
+  	background-position: 75% 75%;
+  }
+  30% {
+  	background-position: 75% 75%;
+  }
+  65% {
+  	background-position: 0 75%;
+  }
+  100% {
+  	background-position: 0 0;
+  }
+}
+
+@keyframes eina-slide-n-e {
+  0% {
+  	background-position: 0 75%;
+  }
+  30% {
+  	background-position: 0 75%;
+  }
+  65% {
+  	background-position: 75% 75%;
+  }
+  100% {
+  	background-position: 75% 0;
+  }
+}
+
+@keyframes eina-slide-s-w {
+  0% {
+  	background-position: 75% 0;
+  }
+  30% {
+  	background-position: 75% 0;
+  }
+  65% {
+  	background-position: 0 0;
+  }
+  100% {
+  	background-position: 0 75%;
+  }
+}
+
+@keyframes eina-slide-s-e {
+  0% {
+  	background-position: 0 0;
+  }
+  30% {
+  	background-position: 0 0;
+  }
+  65% {
+  	background-position: 75% 0;
+  }
+  100% {
+  	background-position: 75% 75%;
+  }
 }
