@@ -1,9 +1,18 @@
 import '../styles/main.scss';
 
-var arrayOfLinks = document.querySelectorAll(".work-links");
+import * as backgrounds from './backgrounds';
+
+var arrayOfLinks = document.querySelectorAll("a");
 
 arrayOfLinks.forEach((el) => {
-	// attach mouseover and mouseout listeners
+	if (el.getAttribute('data-background')) {
+		el.addEventListener('mouseover', (e) => {
+			backgrounds[el.getAttribute('data-background') + 'Init']();
+		});
+		el.addEventListener('mouseout', (e) => {
+			backgrounds[el.getAttribute('data-background') + 'Destroy']();
+		});
+	}
 });
 
 // keep background illustration a square
