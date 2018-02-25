@@ -2,7 +2,7 @@
 
 $bg-color: #EBFFF3;
 $text-color: #222624;
-$link-color: #3d7f58;
+$link-color: #9fe2ba;
 
 $spacer: 30px;
 
@@ -41,18 +41,21 @@ body {
   a {
     color: $text-color;
     text-decoration: none;
-    box-shadow: inset 0 -2px 0 $link-color;
+    box-shadow: 0 2px 0 0px $link-color;
+    border-bottom: 1px solid transparent;
     &:hover {
-      color: $link-color;
+      box-shadow: 0 2px 0 0px $text-color;
     }
   }
 }
 
 .background-illustration {
   // background-color: beige;
+  overflow: hidden;
   position: relative;
   opacity: 1;
-  transition: all 0.2s;
+  transition: all 0.3s;
+  transition-timing-function: ease-in-out;
   &.hide {
     opacity: 0;
   }
