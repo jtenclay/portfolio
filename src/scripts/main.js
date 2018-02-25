@@ -17,11 +17,12 @@ arrayOfLinks.forEach((el) => {
 
 // keep background illustration a square
 
-const $backgroundIllustrationWrapper = document.querySelector('.background-illustration__inner-wrapper'),
+const $backgroundIllustrationWrapper = document.querySelector('.background-illustration__wrapper'),
 			$backgroundIllustration = document.querySelector('.background-illustration');
 
 function resizeBackgroundIllustration() {
-	let size = Math.min($backgroundIllustrationWrapper.clientHeight, $backgroundIllustrationWrapper.clientWidth);
+	let wrapperWidth = $backgroundIllustrationWrapper.clientWidth * 0.8 - 120;
+	let size = Math.min(450, $backgroundIllustrationWrapper.clientHeight, wrapperWidth);
 	$backgroundIllustration.style.width = $backgroundIllustration.style.height = size + 'px';
 }
 resizeBackgroundIllustration();
