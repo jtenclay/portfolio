@@ -16,29 +16,54 @@ body {
 }
 
 .text-block {
-  margin: 30vh auto $spacer * 2;
+  margin: 30vh auto;
   padding-left: $spacer * 2;
   padding-right: calc(#{$spacer} * 2 + 20%);
   max-width: 1000px;
   box-sizing: border-box;
+  position: relative;
+  z-index: 20;
+  h2 {
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    margin: $spacer * 4 0 $spacer;
+  }
+
+  p {
+    margin: 0 0 $spacer;
+  }
+
+  a {
+    color: $text-color;
+    text-decoration: none;
+    box-shadow: inset 0 -2px 0 $link-color;
+    &:hover {
+      color: $link-color;
+    }
+  }
 }
 
-h2 {
-  font-size: inherit;
-  font-weight: inherit;
-  line-height: inherit;
-  margin: $spacer * 4 0 $spacer;
-}
-
-p {
-  margin: 0 0 $spacer;
-}
-
-a {
-  color: $text-color;
-  text-decoration: none;
-  box-shadow: inset 0 -2px 0 $link-color;
-  &:hover {
-    color: $link-color;
+.background-illustration {
+  background-color: beige;
+  &__wrapper {
+    padding-right: $spacer * 2;
+    padding-left: calc(#{$spacer} * 2 + 20%);
+    box-sizing: border-box;
+    position: fixed;
+    z-index: 10;
+    max-width: 1000px;
+    margin: $spacer * 2 auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  &__inner-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
   }
 }
