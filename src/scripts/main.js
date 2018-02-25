@@ -1,6 +1,8 @@
 import '../styles/main.scss';
 import * as backgrounds from './backgrounds';
 
+backgrounds.defaultInit();
+
 var linksArr = document.querySelectorAll("a");
 
 linksArr.forEach((el) => {
