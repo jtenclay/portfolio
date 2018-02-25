@@ -7,6 +7,7 @@ $link-color: #9fe2ba;
 $spacer: 30px;
 
 @import "default-background";
+@import "eina";
 @import "tile-game";
 
 body {
@@ -42,7 +43,7 @@ body {
     color: $text-color;
     text-decoration: none;
     box-shadow: 0 2px 0 0px $link-color;
-    border-bottom: 1px solid transparent;
+    padding-bottom: 1px;
     &:hover {
       box-shadow: 0 2px 0 0px $text-color;
     }

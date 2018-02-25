@@ -1,0 +1,26 @@
+.eina-wrapper {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+
+	.n, .s, .e, .w {
+		width: 50%;
+		padding-top: 50%;
+	}
+
+	.n.w {
+		background: url('../../img/eina-e.svg') no-repeat 0 0 / 50% 50%;
+	}
+
+	.n.e {
+		background: url('../../img/eina-i.svg') no-repeat 100% 0 / 50% 50%;
+	}
+
+	.s.w {
+		background: url('../../img/eina-n.svg') no-repeat 0 100% / 50% 50%;
+	}
+
+	.s.e {
+		background: url('../../img/eina-a.svg') no-repeat 100% 100% / 50% 50%;
+	}
+}
