@@ -1,8 +1,16 @@
 import * as tileGame from './tile-game';
 
-const backgroundIllustration = document.querySelector('.background-illustration');
+let timeout;
+
+const backgroundIllustration = document.querySelector('.background-illustration'),
+			backgroundTransition = 200; // change in css as well!
 
 export function defaultInit() {
+	setTimeout(() => {
+		backgroundIllustration.classList.remove('hide');
+	}, backgroundTransition);
+
+	backgroundIllustration.innerHTML = '<div class="dots-mask dots-mask--left"></div><div class="dots-mask dots-mask--right"></div><div class="dots-mask dots-mask--top"></div><div class="dots-mask dots-mask--bottom"></div>';
 
 	let dotsWrapper = document.createElement("div");
 
@@ -16,30 +24,53 @@ export function defaultInit() {
 		}
 	}
 
+	dotsWrapper.className = 'dots-wrapper';
 	backgroundIllustration.appendChild(dotsWrapper);
 
 	let dots = document.querySelectorAll('.default-dot');
+	function wrapAround(num) {
+		switch (true) {
+			case num < 0:
+				return num + 100;
+				break;
+			case num >= 100:
+				return num - 100;
+				break;
+			default:
+				return num;
+		}
+	}
 	function animateDots() {
 		dots.forEach((dot) => {
-			dot.style.top = parseInt(dot.style.top) + 5 + '%';
-			dot.style.left = parseInt(dot.style.left) - 5 + '%';
+			dot.style.top = wrapAround(parseFloat(dot.style.top) + 0.055) + '%';
+			dot.style.left = wrapAround(parseFloat(dot.style.left) - 0.15) + '%';
 		});
-		//window.requestAnimationFrame(animateDots);
+		timeout = setTimeout(() => {
+			animateDots();
+		}, 16.6);
 	}
+	animateDots();
 
-	window.requestAnimationFrame(animateDots);
 }
 
 export function defaultDestroy() {
-	console.log('destroy default')
+	backgroundIllustration.classList.add('hide');
+	setTimeout(() => {
+		backgroundIllustration.innerHTML = '';
+	}, backgroundTransition);
 }
 
 export function tileGameInit() {
 	defaultDestroy()
-	tileGame.init(backgroundIllustration);
+	setTimeout(() => {
+		tileGame.init(backgroundIllustration, backgroundTransition);
+	}, backgroundTransition);
 }
 
 export function tileGameDestroy() {
-	tileGame.destroy(backgroundIllustration);
-	defaultInit()
+	backgroundIllustration.classList.add('hide');
+	setTimeout(() => {
+		tileGame.destroy(backgroundIllustration);
+		defaultInit();
+	}, backgroundTransition);
 }

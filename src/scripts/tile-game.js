@@ -1,6 +1,10 @@
 let timeout;
 
-export function init(backgroundIllustration) {
+export function init(backgroundIllustration, backgroundTransition) {
+	setTimeout(() => {
+			backgroundIllustration.classList.remove('hide');
+		}, backgroundTransition);
+
 	backgroundIllustration.innerHTML = '<div id="tile-game"><div id="cell-1" class="row-1 column-1"><span>1</span></div><div id="cell-2" class="row-1 column-2"><span>2</span></div><div id="cell-3" class="row-1 column-3"><span>3</span></div><div id="cell-4" class="row-1 column-4"><span>4</span></div><div id="cell-5" class="row-2 column-1"><span>5</span></div><div id="cell-6" class="row-2 column-2"><span>6</span></div><div id="cell-7" class="row-2 column-3"><span>7</span></div><div id="cell-8" class="row-2 column-4"><span>8</span></div><div id="cell-9" class="row-3 column-1"><span>9</span></div><div id="cell-10" class="row-3 column-2"><span>10</span></div><div id="cell-11" class="row-3 column-3"><span>11</span></div><div id="cell-12" class="row-3 column-4"><span>12</span></div><div id="cell-13" class="row-4 column-1"><span>13</span></div><div id="cell-14" class="row-4 column-2"><span>14</span></div><div id="cell-15" class="row-4 column-3"><span>15</span></div></div>';
 
 
