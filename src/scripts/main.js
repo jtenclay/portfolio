@@ -1,10 +1,9 @@
 import '../styles/main.scss';
-
 import * as backgrounds from './backgrounds';
 
-var arrayOfLinks = document.querySelectorAll("a");
+var linksArr = document.querySelectorAll("a");
 
-arrayOfLinks.forEach((el) => {
+linksArr.forEach((el) => {
 	if (el.getAttribute('data-background')) {
 		el.addEventListener('mouseover', (e) => {
 			backgrounds[el.getAttribute('data-background') + 'Init']();
@@ -21,8 +20,8 @@ const $backgroundIllustrationWrapper = document.querySelector('.background-illus
 			$backgroundIllustration = document.querySelector('.background-illustration');
 
 function resizeBackgroundIllustration() {
-	let wrapperWidth = $backgroundIllustrationWrapper.clientWidth * 0.8 - 120;
-	let size = Math.min(450, $backgroundIllustrationWrapper.clientHeight, wrapperWidth);
+	let wrapperWidth = $backgroundIllustrationWrapper.clientWidth * 0.8 - 120,
+			size = Math.min(450, $backgroundIllustrationWrapper.clientHeight, wrapperWidth);
 	$backgroundIllustration.style.width = $backgroundIllustration.style.height = size + 'px';
 }
 resizeBackgroundIllustration();
