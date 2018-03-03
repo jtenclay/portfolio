@@ -1,5 +1,6 @@
 import * as tileGame from './tile-game';
 import * as eina from './eina';
+import * as multiple from './multiple';
 
 let timeout;
 
@@ -46,6 +47,21 @@ export function einaDestroy() {
 	backgroundIllustration.classList.add('hide');
 	setTimeout(() => {
 		eina.destroy(backgroundIllustration);
+		defaultInit();
+	}, backgroundTransition);
+}
+
+export function multipleInit() {
+	defaultDestroy()
+	setTimeout(() => {
+		multiple.init(backgroundIllustration, backgroundTransition);
+	}, backgroundTransition);
+}
+
+export function multipleDestroy() {
+	backgroundIllustration.classList.add('hide');
+	setTimeout(() => {
+		multiple.destroy(backgroundIllustration);
 		defaultInit();
 	}, backgroundTransition);
 }

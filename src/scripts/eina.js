@@ -11,7 +11,7 @@ function getRandomTimeout() {
 
 function appendDiv(wrapper) {
 	timeout = setTimeout(() => {
-		let coords = (Math.random() < 0.8) ? [0,0] : getRandomCoords();
+		let coords = (Math.random() < 0.7) ? [0,0] : getRandomCoords();
 		wrapper.style.left = coords[0] + '%';
 		wrapper.style.top = coords[1] + '%';
 		appendDiv(wrapper);

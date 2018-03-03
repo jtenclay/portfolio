@@ -1,0 +1,15 @@
+.multiple-wrapper {
+	background-color: beige;
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	bottom: 0;
+	div {
+		position: absolute;
+		width: 5%;
+		padding-top: 5%;
+		background-color: red;
+	}
+}
