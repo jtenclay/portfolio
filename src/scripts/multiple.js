@@ -2,8 +2,7 @@ let timeout,
 		activeFlag = false;
 
 class Line {
-	constructor(x, y) {
-		let rotation = 0;
+	constructor(x, y, rotation) {
 		this.DOM = document.createElement('div');
 		this.DOM.style.top = y + '%';
 		this.DOM.style.left = x + '%';
@@ -18,30 +17,38 @@ export function init(backgroundIllustration, backgroundTransition) {
 	const multipleWrapper = document.createElement('div');
 	multipleWrapper.className = 'multiple-wrapper';
 
-	for (let i = 10; i <= 85; i += 5) {
+	/**
+	 * pattern:
+	 *
+	 *     A B    F G
+	 *   C D        H I
+	 *   E            J
+	 */
+
+
+
+	for (let i = 15; i <= 85; i += 5) {
 		let lines = [];
 
 		if (i == 85) {
 			lines.push(
-				new Line(i, i),
-				new Line(i + 5, i - 5),
-				new Line(i - 5, i + 5),
-				new Line(95 - i, i),
-				new Line(95 - i - 5, i - 5),
-				new Line(95 - i + 5, i + 5)
+				new Line(i, i - 5, 45), // A
+				new Line(i - 5, i, 45), // C
+				new Line(95 - i + 5, i, -45), // I
+				new Line(95 - i, i - 5, -45) // G
 			);
 		} else {
 			lines.push(
-				new Line(i, i),
-				new Line(i, i + 5),
-				new Line(i + 5, i),
-				new Line(i + 5, i - 5),
-				new Line(i - 5, i + 5),
-				new Line(95 - i, i),
-				new Line(95 - i, i + 5),
-				new Line(95 - i - 5, i),
-				new Line(95 - i - 5, i - 5),
-				new Line(95 - i + 5, i + 5)
+				new Line(i, i, 45), // D
+				new Line(i, i - 5, 45), // A
+				new Line(i - 5, i, 45), // C
+				new Line(i + 5, i - 5, 45), // B
+				new Line(i - 5, i + 5, 45), // E
+				new Line(95 - i, i, -45), // H
+				new Line(95 - i, i - 5, -45), // G
+				new Line(95 - i - 5, i - 5, -45), // F
+				new Line(95 - i + 5, i, -45), // I
+				new Line(95 - i + 5, i + 5, -45) // J
 			);
 		}
 
