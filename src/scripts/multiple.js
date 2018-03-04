@@ -1,13 +1,23 @@
 let timeout,
-		activeFlag = false;
+		activeFlag = false,
+		lines = [];
 
 class Line {
 	constructor(x, y, rotation) {
 		this.DOM = document.createElement('div');
 		this.DOM.style.top = y + '%';
 		this.DOM.style.left = x + '%';
+		this.rotation = rotation;
 		this.DOM.style.transform = 'rotate(' + rotation +'deg)';
+	};
+	wiggle() {
+		this.DOM.style.transform = 'rotate(' + randomWiggle(this.rotation) +'deg)';
 	}
+}
+
+function randomWiggle(rotation) {
+	let diff = Math.random() * 8 - 4;
+	return rotation + diff;
 }
 
 export function init(backgroundIllustration, backgroundTransition) {
@@ -28,17 +38,17 @@ export function init(backgroundIllustration, backgroundTransition) {
 
 
 	for (let i = 15; i <= 85; i += 5) {
-		let lines = [];
+		let theseLines = [];
 
 		if (i == 85) {
-			lines.push(
+			theseLines.push(
 				new Line(i, i - 5, 45), // A
 				new Line(i - 5, i, 45), // C
 				new Line(95 - i + 5, i, -45), // I
 				new Line(95 - i, i - 5, -45) // G
 			);
 		} else {
-			lines.push(
+			theseLines.push(
 				new Line(i, i, 45), // D
 				new Line(i, i - 5, 45), // A
 				new Line(i - 5, i, 45), // C
@@ -52,17 +62,27 @@ export function init(backgroundIllustration, backgroundTransition) {
 			);
 		}
 
-		lines.forEach(line => {
+		theseLines.forEach(line => {
 			multipleWrapper.appendChild(line.DOM);
 		})
+		lines = lines.concat(theseLines);
 	}
 
-	backgroundIllustration.appendChild(multipleWrapper)
+	backgroundIllustration.appendChild(multipleWrapper);
+	function wiggleLines() {
+		console.log(lines)
+		lines.forEach(line => {
+			line.wiggle();
+		})
+		timeout = setTimeout(wiggleLines, 60);
+	}
+	wiggleLines();
 
 }
 
 export function destroy(backgroundIllustration) {
 	clearTimeout(timeout);
+	lines = [];
 	activeFlag = false;
 	backgroundIllustration.innerHTML = '';
 }
