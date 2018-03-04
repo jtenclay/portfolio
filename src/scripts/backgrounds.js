@@ -10,7 +10,7 @@ const backgroundIllustration = document.querySelector('.background-illustration'
 export function defaultInit() {
 	backgroundIllustration.classList.remove('hide');
 
-	backgroundIllustration.innerHTML = '<div class="dots-wrapper"></div>';
+	backgroundIllustration.innerHTML = '<div class="dots-wrapper"></div><div class="dots-wrapper__border"></div>';
 
 }
 

@@ -8,6 +8,16 @@
 	transform: rotate(-9deg);
 	background: url('../../img/iso-background.svg') repeat 0 0 / 100px 86.5px;
 	animation: slide 5s linear infinite;
+	&__border {
+    box-shadow: inset 0 0 6px 6px $bg-color;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
 }
 
 @keyframes slide {
