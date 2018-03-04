@@ -8,8 +8,6 @@
 #tile-game div {
 	background-color: $link-color;
 	background-size: 400% 400%;
-	position: relative;
-	display: inline-block;
 	width: 22%;
 	height: 22%;
 	position: absolute;
@@ -18,11 +16,11 @@
 	border-radius: 3px;
 
 	-webkit-transition-property: left top;
-    -webkit-transition-duration: .3s;
-    -webkit-transition-timing-function: easeInOutQuart;
-    transition-property: left top;
-    transition-duration: .3s;
-    transition-timing-function: easeInOutQuart;
+  -webkit-transition-duration: .3s;
+  -webkit-transition-timing-function: easeInOutQuart;
+  transition-property: left top;
+  transition-duration: .3s;
+  transition-timing-function: easeInOutQuart;
 }
 
 #tile-game span {

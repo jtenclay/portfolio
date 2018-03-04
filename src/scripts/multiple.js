@@ -1,23 +1,78 @@
 let timeout,
 		activeFlag = false,
-		lines = [];
+		xArr = [];
 
-class Line {
-	constructor(x, y, rotation) {
+class X {
+	constructor(x, y) {
 		this.DOM = document.createElement('div');
+		this.top = y;
 		this.DOM.style.top = y + '%';
+		this.left = x;
 		this.DOM.style.left = x + '%';
-		this.rotation = rotation;
-		this.DOM.style.transform = 'rotate(' + rotation +'deg)';
+		this.opacity = 1;
 	};
-	wiggle() {
-		this.DOM.style.transform = 'rotate(' + randomWiggle(this.rotation) +'deg)';
+	moveUp() {
+		this.top -= 2.5;
+		this.DOM.style.top = this.top + '%';
+		this.updateOpacity();
+	}
+	moveDown() {
+		this.top += 2.5;
+		this.DOM.style.top = this.top + '%';
+		this.updateOpacity();
+	}
+	moveLeft() {
+		this.left -= 2.5;
+		this.DOM.style.left = this.left + '%';
+		this.updateOpacity();
+	}
+	moveRight() {
+		this.left += 2.5;
+		this.DOM.style.left = this.left + '%';
+		this.updateOpacity();
+	}
+	updateOpacity() {
+		if (this.left < 15 || this.left > 80 || this.top < 15 || this.top > 80) {
+			this.opacity = 0;
+			this.DOM.style.opacity = 0;
+		}
+		else if (this.opacity == 0) {
+			this.opacity = 1;
+			this.DOM.style.opacity = 1;
+		}
 	}
 }
 
-function randomWiggle(rotation) {
-	let diff = Math.random() * 8 - 4;
-	return rotation + diff;
+function moveRowsForward() {
+	xArr.forEach(x => {
+		if (x.top % 10 == 0) x.moveRight();
+		else x.moveLeft();
+	})
+	timeout = setTimeout(moveColsForward, 1000);
+}
+
+function moveRowsBack() {
+	xArr.forEach(x => {
+		if ((x.top + 2.5) % 10 == 0) x.moveLeft();
+		else x.moveRight();
+	})
+	timeout = setTimeout(moveColsBack, 1000);
+}
+
+function moveColsForward() {
+	xArr.forEach(x => {
+		if ((x.left - 2.5) % 10 == 0) x.moveUp();
+		else x.moveDown();
+	})
+	timeout = setTimeout(moveRowsBack, 1000);
+}
+
+function moveColsBack() {
+	xArr.forEach(x => {
+		if (x.left % 10 == 0) x.moveUp();
+		else x.moveDown();
+	})
+	timeout = setTimeout(moveRowsForward, 1000);
 }
 
 export function init(backgroundIllustration, backgroundTransition) {
@@ -27,62 +82,24 @@ export function init(backgroundIllustration, backgroundTransition) {
 	const multipleWrapper = document.createElement('div');
 	multipleWrapper.className = 'multiple-wrapper';
 
-	/**
-	 * pattern:
-	 *
-	 *     A B    F G
-	 *   C D        H I
-	 *   E            J
-	 */
-
-
-
-	for (let i = 15; i <= 85; i += 5) {
-		let theseLines = [];
-
-		if (i == 85) {
-			theseLines.push(
-				new Line(i, i - 5, 45), // A
-				new Line(i - 5, i, 45), // C
-				new Line(95 - i + 5, i, -45), // I
-				new Line(95 - i, i - 5, -45) // G
-			);
-		} else {
-			theseLines.push(
-				new Line(i, i, 45), // D
-				new Line(i, i - 5, 45), // A
-				new Line(i - 5, i, 45), // C
-				new Line(i + 5, i - 5, 45), // B
-				new Line(i - 5, i + 5, 45), // E
-				new Line(95 - i, i, -45), // H
-				new Line(95 - i, i - 5, -45), // G
-				new Line(95 - i - 5, i - 5, -45), // F
-				new Line(95 - i + 5, i, -45), // I
-				new Line(95 - i + 5, i + 5, -45) // J
-			);
+	for (let i = 15; i <= 80; i += 5) {
+		for (let j = 15; j <= 80; j += 5) {
+			xArr.push(new X(i, j));
 		}
-
-		theseLines.forEach(line => {
-			multipleWrapper.appendChild(line.DOM);
-		})
-		lines = lines.concat(theseLines);
 	}
+
+	xArr.forEach(x => {
+		multipleWrapper.appendChild(x.DOM);
+	})
 
 	backgroundIllustration.appendChild(multipleWrapper);
-	function wiggleLines() {
-		console.log(lines)
-		lines.forEach(line => {
-			line.wiggle();
-		})
-		timeout = setTimeout(wiggleLines, 60);
-	}
-	wiggleLines();
+	timeout = setTimeout(moveRowsForward, 1000);
 
 }
 
 export function destroy(backgroundIllustration) {
 	clearTimeout(timeout);
-	lines = [];
+	xArr = [];
 	activeFlag = false;
 	backgroundIllustration.innerHTML = '';
 }

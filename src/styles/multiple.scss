@@ -10,6 +10,9 @@
 		width: 5%;
 		padding-top: 5%;
 		background: url('../../img/multiple-pill.svg') center / 100% 100% no-repeat;
-		transition: transform 0.16s;
+
+    transition-property: left top;
+    transition-duration: 0.3s;
+    transition-timing-function: easeInOutQuart;
 	}
 }
