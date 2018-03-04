@@ -38,7 +38,8 @@ class X {
 		this.updateHighlight();
 	}
 	updateOpacity() {
-		if (this.left < 5 || this.left > 85 || this.top < 5 || this.top > 85) {
+		if (this.left < 5 || this.left > 85 || this.top < 5 || this.top > 85 ||
+				((this.left == 5 || this.left == 85) && (this.top == 5 || this.top == 85))) {
 			this.opacity = 0;
 			this.DOM.style.opacity = 0;
 		}
@@ -52,14 +53,11 @@ class X {
 		else this.DOM.classList.remove('highlighted');
 	}
 	testForHighlight() {
-		if (!(this.left == 10 && this.top == 10) &&
-			!(this.left == 10 && this.top == 80) &&
-			!(this.left == 80 && this.top == 10) &&
-			!(this.left == 80 && this.top == 80) &&
-			(Math.abs(this.left - this.top) <= 10 ||
-			Math.abs(90 - this.left - this.top) <= 10) &&
-			this.left > 5 && this.left < 85 &&
-			this.top > 5 && this.top < 85) return true;
+		if (!((this.left == 15 || this.left == 75) && (this.top == 15 || this.top == 75)) &&
+				(Math.abs(this.left - this.top) <= 10 ||
+				Math.abs(90 - this.left - this.top) <= 10) &&
+				this.left > 10 && this.left < 80 &&
+				this.top > 10 && this.top < 80) return true;
 		else return false;
 	}
 }
