@@ -1,0 +1,34 @@
+.multiple-wrapper {
+	position: absolute;
+	top: 2.5%;
+	left: 2.5%;
+	height: 100%;
+	width: 100%;
+	bottom: -2.5%;
+	div {
+		position: absolute;
+		width: 5%;
+		// padding-top: 5%;
+		//background: url('../../img/multiple-pill.svg') center / 100% 100% no-repeat;
+
+    transition-property: left top;
+    transition-duration: 0.4s;
+    transition-timing-function: easeInOutQuart;
+    svg {
+    	width: 100%;
+    	height: 100%;
+    	display: block;
+    	line {
+    		stroke-width: 0.5px;
+    		transition-property: stroke-width;
+		    transition-duration: 0.4s;
+		    transition-timing-function: easeInOutQuart;
+    	}
+    }
+    &.highlighted {
+			svg line {
+				stroke-width: 1.5px;
+			}
+    }
+	}
+}

@@ -1,0 +1,20 @@
+.dots-wrapper {
+	position: absolute;
+	top: -10%;
+	left: -10%;
+	height: 120%;
+	width: 120%;
+	bottom: -10%;
+	transform: rotate(-9deg);
+	background: url('../../img/iso-background.svg') repeat 0 0 / 100px 86.5px;
+	animation: slide 5s linear infinite;
+}
+
+@keyframes slide {
+  from {
+  	background-position: 0 0;
+  }
+  to {
+  	background-position: -100px 86.5px;
+  }
+}

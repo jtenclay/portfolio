@@ -1,0 +1,79 @@
+@import "normalize.css";
+
+$bg-color: #EBFFF3;
+$text-color: #222624;
+$link-color: #9fe2ba;
+
+$spacer: 30px;
+
+@import "default-background";
+@import "eina";
+@import "tile-game";
+@import "multiple";
+
+body {
+  background-color: $bg-color;
+  font-family: "Atlas Grotesk", Helvetica, Arial, sans-serif;
+  margin: 0;
+  font-size: 20px;
+  color: $text-color;
+  line-height: 1.5;
+}
+
+.text-block {
+  margin: 30vh auto;
+  padding: 0 $spacer * 2;
+  max-width: 1000px;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 20;
+  h2 {
+    padding-right: 30%;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    margin: $spacer * 4 0 $spacer;
+  }
+
+  p {
+    padding-right: 30%;
+    margin: 0 0 $spacer;
+  }
+
+  a {
+    color: $text-color;
+    text-decoration: none;
+    box-shadow: 0 2px 0 0px $link-color;
+    padding-bottom: 1px;
+    &:hover {
+      box-shadow: 0 2px 0 0px $text-color;
+    }
+  }
+}
+
+.background-illustration {
+  // background-color: beige;
+  overflow: hidden;
+  position: relative;
+  opacity: 1;
+  transition: all 0.3s;
+  transition-timing-function: ease-in-out;
+  &.hide {
+    opacity: 0;
+  }
+  &__wrapper {
+    padding: 0 $spacer * 2;
+    box-sizing: border-box;
+    position: fixed;
+    z-index: 10;
+    max-width: 1000px;
+    margin: $spacer * 2 auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+}
