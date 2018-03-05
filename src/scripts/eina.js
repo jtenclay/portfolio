@@ -1,52 +1,40 @@
 let timeout,
-		activeFlag = false;
+		staticWrapper,
+		dotsArr = [];
 
-function getRandomCoords() {
-	return [Math.random() * 40 - 20, Math.random() * 20 - 10]; // [x, y]
+class Dot {
+	constructor() {
+		this.DOM = document.createElement('div');
+		this.DOM.className = 'dot';
+		this.DOM.style.top = Math.random() * 100 + '%';
+		this.DOM.style.left = Math.random() * 100 + '%';
+		staticWrapper.appendChild(this.DOM);
+		this.timeout = setTimeout(this.setNewDestination, 1000);
+	}
+	setNewDestination() {
+		this.DOM.style.top = Math.random() * 100 + '%';
+		this.DOM.style.left = Math.random() * 100 + '%';
+		this.timeout = setTimeout(this.setNewDestination, 1000);
+	}
 }
-
-function getRandomTimeout() {
-	return Math.random() * 500;
-}
-
-function appendDiv(wrapper) {
-	timeout = setTimeout(() => {
-		let coords = (Math.random() < 0.7) ? [0,0] : getRandomCoords();
-		wrapper.style.left = coords[0] + '%';
-		wrapper.style.top = coords[1] + '%';
-		appendDiv(wrapper);
-	}, getRandomTimeout());
-}
-
 
 export function init(backgroundIllustration, backgroundTransition) {
-	activeFlag = true;
 	backgroundIllustration.classList.remove('hide');
 
-	backgroundIllustration.innerHTML = '<div class="eina-wrapper"><div class="n w"></div><div class="n e"></div><div class="s w"></div><div class="s e"></div></div>';
+	backgroundIllustration.innerHTML = '<div class="eina-wrapper"><div class="n w"></div><div class="n e"></div><div class="s w"></div><div class="s e"></div><div class="eina-wrapper__static"></div></div>';
 
-	let einaWrapper = backgroundIllustration.querySelector('.eina-wrapper');
-	appendDiv(einaWrapper);
+	staticWrapper = backgroundIllustration.querySelector('.eina-wrapper__static');
 
-	einaWrapper.querySelectorAll('div').forEach((el) => {
-		el.classList.add('init');
-	});
+	for (let i = 0; i < 100; i++) {
+		dotsArr.push(new Dot());
+	}
 
-	// pause glitches while letters are in motion
-	setTimeout(() => {
-		clearTimeout(timeout);
-	}, 700);
-
-	// resume glitches after letter stop moving
-	setTimeout(() => {
-		if (activeFlag) {
-			appendDiv(einaWrapper);
-		}
-	}, 2000);
 }
 
 export function destroy(backgroundIllustration) {
 	clearTimeout(timeout);
-	activeFlag = false;
+	dotsArr.forEach(dot => {
+		clearTimeout(dot.timeout);
+	})
 	backgroundIllustration.innerHTML = '';
 }
