@@ -35,7 +35,6 @@ module.exports = {
             {
               loader: 'css-loader',
               options: {
-                url: false,
                 minimize: true,
                 sourceMap: true
               }
@@ -48,6 +47,17 @@ module.exports = {
             }
           ]
         })
+      },
+      {
+        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: '../styles/fonts/',
+            publicPath: './fonts/'
+          }
+        }]
       }
     ]
   },

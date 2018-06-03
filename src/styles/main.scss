@@ -6,18 +6,41 @@ $link-color: #9fe2ba;
 
 $spacer: 30px;
 
-@import "default-background";
-@import "eina";
-@import "tile-game";
-@import "multiple";
+// @import "default-background";
+// @import "eina";
+// @import "tile-game";
+// @import "multiple";
+
+@font-face {
+  font-family: 'Atlas Grotesk Web';
+  src: url('./fonts/AtlasGrotesk-Medium-Web.eot');
+  src: url('./fonts/AtlasGrotesk-Medium-Web.eot?#iefix') format('embedded-opentype'),
+       url('./fonts/AtlasGrotesk-Medium-Web.woff2') format('woff2'),
+       url('./fonts/AtlasGrotesk-Medium-Web.woff') format('woff');
+  font-weight:  500;
+  font-style:   normal;
+  font-stretch: normal;
+}
+
+@font-face {
+  font-family: 'Atlas Grotesk Web';
+  src: url('./fonts/AtlasGrotesk-Regular-Web.eot');
+  src: url('./fonts/AtlasGrotesk-Regular-Web.eot?#iefix') format('embedded-opentype'),
+       url('./fonts/AtlasGrotesk-Regular-Web.woff2') format('woff2'),
+       url('./fonts/AtlasGrotesk-Regular-Web.woff') format('woff');
+  font-weight:  400;
+  font-style:   normal;
+  font-stretch: normal;
+}
 
 body {
   background-color: $bg-color;
-  font-family: "Atlas Grotesk", Helvetica, Arial, sans-serif;
+  font-family: "Atlas Grotesk Web", Helvetica, Arial, sans-serif;
+  font-weight: 400;
   margin: 0;
   font-size: 20px;
   color: $text-color;
-  line-height: 1.5;
+  line-height: 30px;
 }
 
 .text-block {
@@ -29,10 +52,11 @@ body {
   z-index: 20;
   h2 {
     padding-right: 30%;
-    font-size: inherit;
-    font-weight: inherit;
-    line-height: inherit;
-    margin: $spacer * 4 0 $spacer;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.65px;
+    margin: $spacer * 3 0 $spacer;
   }
 
   p {
@@ -48,6 +72,22 @@ body {
     &:hover {
       box-shadow: 0 2px 0 0px $text-color;
     }
+  }
+
+  @media only screen and (max-width: 800px) {
+    h2, p {
+      padding-right: 20%;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    h2, p {
+      padding-right: 0;
+    }
+  }
+
+  @media only screen and (max-width: 450px) {
+    padding: 0 $spacer;
   }
 }
 
