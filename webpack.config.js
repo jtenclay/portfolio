@@ -1,18 +1,18 @@
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-// for scss
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const extractSass = new ExtractTextPlugin({
-  filename: "../styles/style.css",
-});
+const publicPath = process.env.NODE_ENV === 'development'
+  ? path.resolve(__dirname, 'dist')
+  : 'http://jacksontenclay.com/';
 
 module.exports = {
   entry: './src/scripts/main.js',
   output: {
-    path: path.resolve(__dirname, 'dist/scripts'),
-    filename: 'bundle.js',
-    publicPath: 'dist'
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'scripts/bundle.js',
+    publicPath
   },
   devtool: 'source-map',
   module: {
@@ -29,24 +29,50 @@ module.exports = {
         ]
       },
       {
-        test: /\.scss$/,
-        use: extractSass.extract({
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                minimize: true,
-                sourceMap: true
-              }
-            }, {
-              loader: 'postcss-loader',
-              options: { sourceMap: true }
-            }, {
-              loader: 'sass-loader',
-              options: { sourceMap: true }
+        test: /\.(png|jpg|jpeg|gif|ico)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]'
             }
-          ]
-        })
+          }
+        ]
+      },
+      {
+        type: 'javascript/auto',
+        test: /\.(json)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]'
+            }
+          }
+        ]
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              minimize: true,
+              sourceMap: true
+            }
+          }, {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true
+            }
+          }, {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true
+            }
+          }
+        ]
       },
       {
         test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
@@ -54,7 +80,7 @@ module.exports = {
           loader: 'file-loader',
           options: {
             name: '[name].[ext]',
-            outputPath: '../styles/fonts/',
+            outputPath: 'styles/fonts/',
             publicPath: './fonts/'
           }
         }]
@@ -62,9 +88,16 @@ module.exports = {
     ]
   },
   plugins: [
-    extractSass,
+    new MiniCssExtractPlugin({
+      filename: "styles/site.css"
+    }),
     new UglifyJsPlugin({
       sourceMap: true
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: './src/index.html',
+      hash: true
     })
   ]
 };
