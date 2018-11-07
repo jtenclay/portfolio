@@ -11,27 +11,27 @@ $spacer: 30px;
 // @import "tile-game";
 // @import "multiple";
 
-@font-face {
-  font-family: 'Atlas Grotesk Web';
-  src: url('./fonts/AtlasGrotesk-Medium-Web.eot');
-  src: url('./fonts/AtlasGrotesk-Medium-Web.eot?#iefix') format('embedded-opentype'),
-       url('./fonts/AtlasGrotesk-Medium-Web.woff2') format('woff2'),
-       url('./fonts/AtlasGrotesk-Medium-Web.woff') format('woff');
-  font-weight:  500;
-  font-style:   normal;
-  font-stretch: normal;
-}
+// @font-face {
+//   font-family: 'Atlas Grotesk Web';
+//   src: url('./fonts/AtlasGrotesk-Medium-Web.eot');
+//   src: url('./fonts/AtlasGrotesk-Medium-Web.eot?#iefix') format('embedded-opentype'),
+//        url('./fonts/AtlasGrotesk-Medium-Web.woff2') format('woff2'),
+//        url('./fonts/AtlasGrotesk-Medium-Web.woff') format('woff');
+//   font-weight:  500;
+//   font-style:   normal;
+//   font-stretch: normal;
+// }
 
-@font-face {
-  font-family: 'Atlas Grotesk Web';
-  src: url('./fonts/AtlasGrotesk-Regular-Web.eot');
-  src: url('./fonts/AtlasGrotesk-Regular-Web.eot?#iefix') format('embedded-opentype'),
-       url('./fonts/AtlasGrotesk-Regular-Web.woff2') format('woff2'),
-       url('./fonts/AtlasGrotesk-Regular-Web.woff') format('woff');
-  font-weight:  400;
-  font-style:   normal;
-  font-stretch: normal;
-}
+// @font-face {
+//   font-family: 'Atlas Grotesk Web';
+//   src: url('./fonts/AtlasGrotesk-Regular-Web.eot');
+//   src: url('./fonts/AtlasGrotesk-Regular-Web.eot?#iefix') format('embedded-opentype'),
+//        url('./fonts/AtlasGrotesk-Regular-Web.woff2') format('woff2'),
+//        url('./fonts/AtlasGrotesk-Regular-Web.woff') format('woff');
+//   font-weight:  400;
+//   font-style:   normal;
+//   font-stretch: normal;
+// }
 
 body {
   background-color: $bg-color;
