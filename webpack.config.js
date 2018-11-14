@@ -1,16 +1,15 @@
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const publicPath = process.env.NODE_ENV === 'development'
   ? path.resolve(__dirname, 'dist')
-  : 'http://jacksontenclay.com/';
+  : 'https://www.jacksontenclay.com/';
 
 module.exports = {
-  entry: './src/scripts/main.js',
+  entry: './assets/scripts/main.js',
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, '.tmp/dist/assets'),
     filename: 'scripts/bundle.js',
     publicPath
   },
@@ -93,11 +92,6 @@ module.exports = {
     }),
     new UglifyJsPlugin({
       sourceMap: true
-    }),
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: './src/index.html',
-      hash: true
     })
   ]
 };

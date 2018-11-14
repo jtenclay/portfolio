@@ -1,4 +1,9 @@
-node_modules
+.bundle
+.cache
 .DS_Store
-dist
-src/styles/fonts
+.sass-cache
+.tmp/
+build/
+node_modules/
+dist/
+assets/styles/fonts/
