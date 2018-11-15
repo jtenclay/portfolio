@@ -1,0 +1,3 @@
+[submodule "source/tile-game"]
+	path = source/tile-game
+	url = git@github.com:jtenclay/tile-game.git

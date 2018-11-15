@@ -1,4 +1,6 @@
 #!/bin/sh
 
-yarn build
-rsync -avz ./dist/. $BLUEHOST_ADDRESS:~/public_html/
+middleman build
+rsync -avz \
+--exclude *.DS_Store \
+./build/ $DIGITALOCEAN_SERVER_CREDS:/var/www/jacksontenclay.com/html
