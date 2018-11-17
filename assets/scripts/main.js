@@ -1,5 +1,16 @@
 import '../styles/main.scss';
 
+function hideFocusStylesForMouse() {
+  document.body.addEventListener('mousedown', () => {
+    document.body.classList.add('using-mouse');
+  });
+  document.body.addEventListener('keydown', () => {
+    document.body.classList.remove('using-mouse');
+  });
+}
+
+hideFocusStylesForMouse();
+
 // import * as backgrounds from './backgrounds';
 
 // backgrounds.defaultInit();

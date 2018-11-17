@@ -72,6 +72,9 @@ body {
     &:hover {
       box-shadow: 0 2px 0 0px $text-color;
     }
+    .using-mouse &:focus {
+      outline: none;
+    }
   }
 
   @media only screen and (max-width: 800px) {
@@ -92,7 +95,7 @@ body {
 }
 
 .background-illustration {
-  // background-color: beige;
+  background-color: beige;
   overflow: hidden;
   position: relative;
   opacity: 1;
