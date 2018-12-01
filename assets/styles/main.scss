@@ -10,6 +10,7 @@ $spacer: 30px;
 // @import "eina";
 // @import "tile-game";
 // @import "multiple";
+@import "hover-tile-link";
 
 @font-face {
   font-family: 'Atlas Grotesk Web';
@@ -44,8 +45,8 @@ body {
 }
 
 .text-block {
-  margin: 30vh auto;
-  padding: 0 $spacer * 2;
+  margin: 0 auto;
+  padding: 30vh $spacer * 2;
   max-width: 1000px;
   box-sizing: border-box;
   position: relative;
@@ -90,7 +91,7 @@ body {
   }
 
   @media only screen and (max-width: 450px) {
-    padding: 0 $spacer;
+    padding: 30vh $spacer;
   }
 }
 

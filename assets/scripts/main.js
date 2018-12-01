@@ -1,4 +1,5 @@
 import '../styles/main.scss';
+import HoverTile from './HoverTile';
 
 function hideFocusStylesForMouse() {
   document.body.addEventListener('mousedown', () => {
@@ -10,6 +11,8 @@ function hideFocusStylesForMouse() {
 }
 
 hideFocusStylesForMouse();
+
+[...document.querySelectorAll('.hover-tile-link')].forEach(a => new HoverTile(a));
 
 // import * as backgrounds from './backgrounds';
 
