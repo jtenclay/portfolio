@@ -1,3 +1,5 @@
+const textBlock = document.querySelector('.text-block');
+
 export default class HoverTile {
   constructor(a) {
     // Create DOM element
@@ -25,7 +27,7 @@ export default class HoverTile {
         mouseY = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
       }
       this.tile.style.top = `${mouseY + 20}px`;
-      this.tile.style.left = `${mouseX + 20}px`;
+      this.tile.style.left = `${mouseX + 20 - textBlock.getBoundingClientRect().left}px`;
     };
 
     a.addEventListener('mouseover', this.positionTile);
