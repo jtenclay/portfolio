@@ -10,6 +10,7 @@ $spacer: 30px;
 // @import "eina";
 // @import "tile-game";
 // @import "multiple";
+@import "hover-tile-link";
 
 @font-face {
   font-family: 'Atlas Grotesk Web';
@@ -44,8 +45,8 @@ body {
 }
 
 .text-block {
-  margin: 30vh auto;
-  padding: 0 $spacer * 2;
+  margin: 0 auto;
+  padding: 30vh $spacer * 2;
   max-width: 1000px;
   box-sizing: border-box;
   position: relative;
@@ -72,6 +73,9 @@ body {
     &:hover {
       box-shadow: 0 2px 0 0px $text-color;
     }
+    .using-mouse &:focus {
+      outline: none;
+    }
   }
 
   @media only screen and (max-width: 800px) {
@@ -87,12 +91,12 @@ body {
   }
 
   @media only screen and (max-width: 450px) {
-    padding: 0 $spacer;
+    padding: 30vh $spacer;
   }
 }
 
 .background-illustration {
-  // background-color: beige;
+  background-color: beige;
   overflow: hidden;
   position: relative;
   opacity: 1;
