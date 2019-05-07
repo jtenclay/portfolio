@@ -1,0 +1,11 @@
+---
+title: Today I made... | Jackson Tenclay
+---
+
+<div class="text-block">
+  <ul>
+    <% data['today-i-made'].reverse.each do |item| %>
+      <li><%= format_tim_date item.keys[0] %> I made <%= item[item.keys[0]] %></li>
+    <% end %>
+  </ul>
+</div>

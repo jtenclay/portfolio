@@ -48,11 +48,22 @@ page '/*.txt', layout: false
 # Methods defined in the helpers block are available in templates
 # https://middlemanapp.com/basics/helper-methods/
 
-# helpers do
-#   def some_helper
-#     'Helping'
+helpers do
+  def format_tim_date(date)
+    date = Date.strptime(date, '%Y/%m/%d')
+    if date == Date.today
+      'Today'
+    elsif date == Date.today.prev_day
+      'Yesterday'
+    else
+      date.strftime('%B %e')
+    end
+
+  end
+#   def markdown(content)
+#     Tilt['markdown'].new(context: @app) { content }.render
 #   end
-# end
+end
 
 # Build-specific configuration
 # https://middlemanapp.com/advanced/configuration/#environment-specific-settings
