@@ -56,7 +56,7 @@ helpers do
     elsif date == Date.today.prev_day
       'Yesterday'
     else
-      date.strftime('%B %e')
+      date.strftime('%B %-e')
     end
 
   end
