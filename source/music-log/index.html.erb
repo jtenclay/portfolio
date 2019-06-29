@@ -1,0 +1,11 @@
+---
+title: Music log | Jackson Tenclay
+---
+
+<div class="text-block">
+  <ul>
+    <% data['music-log'].reverse.each do |entry| %>
+      <li><%= entry['date'] %>: <%= entry['duration'] %></li>
+    <% end %>
+  </ul>
+</div>

@@ -1,3 +1,5 @@
+require 'scripts/sync_music_log'
+
 # Activate and configure extensions
 # https://middlemanapp.com/advanced/configuration/#configuring-extensions
 
@@ -72,3 +74,6 @@ end
 #   activate :minify_css
 #   activate :minify_javascript
 # end
+
+# Sync music log before building or launching server
+sync_music_log

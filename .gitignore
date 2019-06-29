@@ -2,8 +2,11 @@
 .cache
 .DS_Store
 .sass-cache
+.env
 .tmp/
 build/
 node_modules/
 dist/
 assets/styles/fonts/
+data/service-account.json
+data/music-log.json
