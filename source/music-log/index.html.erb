@@ -2,10 +2,29 @@
 title: Music log | Jackson Tenclay
 ---
 
+<% streaks_data = data['music-log-streaks'] %>
+
 <div class="text-block">
+  <h2>Minutes per day</h2>
   <ul>
-    <% data['music-log'].reverse.each do |entry| %>
-      <li><%= entry['date'] %>: <%= entry['duration'] %></li>
+    <% data['music-log-by-date'].reverse.each do |entry| %>
+      <% hours, minutes = entry['duration'].divmod(60) %>
+
+      <li>
+        <%= entry['date'] %>: <%= entry['duration'] %> min
+        (<%= hours %>:<%= format('%02d', minutes) %>)
+      </li>
     <% end %>
   </ul>
+
+  <h2>Streaks</h2>
+  <p>
+    Longest streak: <%= streaks_data['longest_streak'].length %> days
+    (<%= streaks_data['longest_streak'].first['date'] %> to <%= streaks_data['longest_streak'].last['date'] %>)
+  </p>
+  <p>
+    Current streak: <%= streaks_data['streaks'].last.length %> days
+  </p>
+
+  <%= partial 'partials/_bar-chart' %>
 </div>

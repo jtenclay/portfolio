@@ -41,5 +41,7 @@
     "android 4",
     "opera 12"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "d3-node": "^2.1.0"
+  }
 }

@@ -9,4 +9,4 @@ node_modules/
 dist/
 assets/styles/fonts/
 data/service-account.json
-data/music-log.json
+data/music-log*
