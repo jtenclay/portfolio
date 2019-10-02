@@ -5,7 +5,15 @@ const timeOfDayData = JSON.parse(fs.readFileSync('data/music-log-time-of-day.jso
 const totalEntries = JSON.parse(fs.readFileSync('data/music-log.json')).length;
 
 // Initialize D3 and a container element
-const d3n = new D3Node();
+const d3n = new D3Node({
+  container: `
+    <div class="time-of-day">
+      <div class="time-of-day__y-axis"></div>
+      <div class="time-of-day__chart"></div>
+      <div class="time-of-day__x-axis"></div>
+    </div>`,
+  selector: '.time-of-day__chart',
+});
 // const containerSVG = d3n.createSVG(1440, 900)
 //   .attr('viewBox', '0 0 1440, 900')
 //   .style('width', '100%')
@@ -24,10 +32,10 @@ const d3n = new D3Node();
 const width = 1440;
 const height = 900;
 const margin = {
-  top: 20,
-  right: 30,
-  bottom: 30,
-  left: 40,
+  top: 0,
+  right: 0,
+  bottom: 0,
+  left: 0,
 };
 
 const containerSVG = d3n.createSVG(1440, 900)
@@ -58,8 +66,6 @@ const area = D3Node.d3.area()
 // Draw the area
 containerSVG.append('path')
   .datum(data)
-  .attr('fill', 'steelblue')
-  .attr('stroke', 'steelblue')
   .attr('stroke-width', 1.5)
   .attr('stroke-linejoin', 'round')
   .attr('stroke-linecap', 'round')
@@ -74,19 +80,54 @@ const xAxis = g => g
     .tickSizeOuter(0));
 
 const yAxis = g => g
-  .attr('transform', `translate(${margin.left}, 0)`)
   .call(D3Node.d3.axisLeft(y)
     .ticks(4)
     .tickFormat(percent => `${percent}%`));
 
-containerSVG.append('g')
-  .call(xAxis);
+const yAxisEl = D3Node.d3.select(d3n.document.querySelector('.time-of-day__y-axis'));
 
-containerSVG.append('g')
+yAxisEl.append('div')
+  .attr('class', 'temp')
   .call(yAxis);
 
+yAxisEl
+  .selectAll('g')
+  .each((d, i, nodes) => {
+    const transformY = D3Node.d3.select(nodes[i]).attr('transform').match(/,([\d.]*)\)/)[1];
+    const topY = parseInt(transformY, 10) / 900 * 100;
+
+    yAxisEl.append('div')
+      .attr('class', 'time-of-day__y-tick')
+      .style('top', topY + '%')
+      .text(d + '%\xa0');
+  });
+
+const xAxisEl = D3Node.d3.select(d3n.document.querySelector('.time-of-day__x-axis'));
+
+xAxisEl.append('div')
+  .attr('class', 'temp')
+  .call(xAxis);
+
+xAxisEl
+  .selectAll('g')
+  .each((d, i, nodes) => {
+    const transformX = D3Node.d3.select(nodes[i]).attr('transform').match(/\(([\d.]*),/)[1];
+    const leftX = parseInt(transformX, 10) / 1440 * 100;
+
+    xAxisEl.append('div')
+      .attr('class', 'time-of-day__x-tick')
+      .style('left', leftX + '%')
+      .text(d / 60 + 'h');
+  });
+
+D3Node.d3.select(d3n.document).selectAll('.temp')
+  .remove();
+
+// containerSVG.append('g')
+//   .call(yAxis);
+
 // Write to file
-const output = d3n.svgString();
+const output = d3n.html();
 fs.writeFile('source/partials/_bar-chart.html.erb', output, (err) => {
   if (err) console.log(err); // eslint-disable-line no-console
   else console.log('D3 charts created.'); // eslint-disable-line no-console

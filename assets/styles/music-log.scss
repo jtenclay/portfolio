@@ -1,0 +1,70 @@
+.time-of-day {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1.65px;
+  padding: 0 0 $spacer * 2 $spacer * 2;
+  position: relative;
+
+  &__x-axis {
+    border-top: 2px solid $link-color;
+    bottom: 0;
+    height: $spacer * 2;
+    left: $spacer * 2;
+    position: absolute;
+    right: 0;
+  }
+
+  &__y-axis {
+    border-right: 2px solid $link-color;
+    bottom: $spacer * 2;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: $spacer * 2;
+  }
+
+  &__chart {
+    svg {
+      display: block;
+
+      path {
+        fill: $link-color;
+        stroke: $link-color;
+      }
+    }
+  }
+
+  &__y-tick {
+    padding-right: $spacer / 2;
+    position: absolute;
+    right: 0;
+    transform: translateY(-50%);
+
+    &:after {
+      border-bottom: 2px solid $link-color;
+      content: '';
+      display: block;
+      position: absolute;
+      right: 0;
+      top: calc(50% - 1px);
+      width: $spacer / 2;
+    }
+  }
+
+  &__x-tick {
+    padding-top: $spacer / 2;
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+
+    &:after {
+      border-right: 2px solid $link-color;
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: calc(50% - 1px);
+      height: $spacer / 2;
+    }
+  }
+}
