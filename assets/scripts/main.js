@@ -1,4 +1,5 @@
 import '../styles/main.scss';
+import './music-log';
 import HoverTile from './HoverTile';
 
 function hideFocusStylesForMouse() {

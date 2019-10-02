@@ -8,9 +8,15 @@ const totalEntries = JSON.parse(fs.readFileSync('data/music-log.json')).length;
 const d3n = new D3Node({
   container: `
     <div class="time-of-day">
-      <div class="time-of-day__y-axis"></div>
-      <div class="time-of-day__chart"></div>
-      <div class="time-of-day__x-axis"></div>
+      <div class="time-of-day__y-axis">
+        <div class="time-of-day__y-axis-line"></div>
+      </div>
+      <div class="time-of-day__chart">
+        <div class="time-of-day__tooltip"></div>
+      </div>
+      <div class="time-of-day__x-axis">
+        <div class="time-of-day__x-axis-line"></div>
+      </div>
     </div>`,
   selector: '.time-of-day__chart',
 });
@@ -127,7 +133,15 @@ D3Node.d3.select(d3n.document).selectAll('.temp')
 //   .call(yAxis);
 
 // Write to file
-const output = d3n.html();
+let output = d3n.html();
+
+output += `
+  <script>
+    var totalEntries = ${totalEntries};
+    var timeOfDayData = ${JSON.stringify(timeOfDayData)};
+  </script>
+`;
+
 fs.writeFile('source/partials/_bar-chart.html.erb', output, (err) => {
   if (err) console.log(err); // eslint-disable-line no-console
   else console.log('D3 charts created.'); // eslint-disable-line no-console
