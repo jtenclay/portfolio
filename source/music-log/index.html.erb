@@ -3,6 +3,8 @@ title: Music log | Jackson Tenclay
 ---
 
 <% streaks_data = data['music-log-streaks'] %>
+<% totals_data = data['music-log-totals'] %>
+<% total_hours, total_minutes = totals_data['total_time'].divmod(60) %>
 
 <div class="text-block">
   <h2>Minutes per day</h2>
@@ -16,15 +18,26 @@ title: Music log | Jackson Tenclay
       </li>
     <% end %>
   </ul>
+  <p>
+    Median minutes per session: <%= totals_data['median_time_per_entry'] %>
+    <br>
+    Median minutes per day: <%= totals_data['median_time_per_day'] %>
+  </p>
 
-  <h2>Streaks</h2>
+  <h2>Totals and streaks</h2>
+  <p>
+    Total time: <%= total_hours %>hrs, <%= total_minutes %> mins
+  </p>
   <p>
     Longest streak: <%= streaks_data['longest_streak'].length %> days
     (<%= streaks_data['longest_streak'].first['date'] %> to <%= streaks_data['longest_streak'].last['date'] %>)
-  </p>
-  <p>
+    <br>
     Current streak: <%= streaks_data['streaks'].last.length %> days
   </p>
 
+  <h2>Time of day</h2>
+  <p>
+    This graph shows what percentage of my practice entries included a particular minute of the day.
+  </p>
   <%= partial 'partials/_bar-chart' %>
 </div>

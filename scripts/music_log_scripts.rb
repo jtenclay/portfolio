@@ -20,6 +20,7 @@ def find_streaks(ordered_entries_by_date)
 end
 
 def find_time_of_day(entries)
+
   time_array = (0..1439).map { |time_index| 0 }
 
   entries.each do |entry|
@@ -34,10 +35,13 @@ def find_time_of_day(entries)
     end
   end
 
+  # Duplicate midnight at the end for continuity
+  time_array << time_array.first
+
   File.open('data/music-log-time-of-day.json', 'w') { |f| f << time_array.to_json }
 end
 
-def find_totals(entries)
+def find_totals(entries, ordered_entries_by_date)
   entries_by_tag = {}
 
   entries_by_tag = entries.reduce({}) do |acc, cur|
@@ -53,11 +57,26 @@ def find_totals(entries)
     acc
   end
 
+  median_time_per_entry = median(entries.map { |entry| entry[:duration] })
+  median_time_per_day = median(ordered_entries_by_date.map { |date| date[:duration] })
+
   totals = {
-    entries_by_tag: entries_by_tag
+    entries_by_tag: entries_by_tag,
+    median_time_per_day: median_time_per_day,
+    median_time_per_entry: median_time_per_entry,
+    total_time: entries.reduce(0) { |sum, num| sum + num[:duration] }
   }
 
   File.open('data/music-log-totals.json', 'w') { |f| f << totals.to_json }
+end
+
+def median(arr)
+  sorted_arr = arr.sort
+  if sorted_arr.length.odd?
+    sorted_arr[(sorted_arr.length - 1) / 2]
+  else
+   ((sorted_arr[sorted_arr.length / 2] + sorted_arr[sorted_arr.length / 2 - 1]) / 2)
+  end
 end
 
 def sync_music_log
@@ -82,7 +101,6 @@ def sync_music_log
   puts 'Sync complete.'
 
   reduce_music_log_by_date(entries)
-  find_totals(entries)
   find_time_of_day(entries)
 
   puts 'JSON write complete.'
@@ -106,6 +124,7 @@ def reduce_music_log_by_date(entries)
 
   File.open('data/music-log-by-date.json', 'w') { |f| f << ordered_entries_by_date.to_json }
 
+  find_totals(entries, ordered_entries_by_date)
   find_streaks(ordered_entries_by_date)
 end
 
