@@ -3,21 +3,11 @@ const fs = require('fs');
 
 const timeOfDayData = JSON.parse(fs.readFileSync('data/music-log-time-of-day.json'));
 const totalEntries = JSON.parse(fs.readFileSync('data/music-log.json')).length;
+const layout = fs.readFileSync('source/partials/_time-of-day-layout.erb');
 
 // Initialize D3 and a container element
 const d3n = new D3Node({
-  container: `
-    <div class="time-of-day">
-      <div class="time-of-day__y-axis">
-        <div class="time-of-day__y-axis-line"></div>
-      </div>
-      <div class="time-of-day__chart">
-        <div class="time-of-day__tooltip"></div>
-      </div>
-      <div class="time-of-day__x-axis">
-        <div class="time-of-day__x-axis-line"></div>
-      </div>
-    </div>`,
+  container: layout,
   selector: '.time-of-day__chart',
 });
 // const containerSVG = d3n.createSVG(1440, 900)
@@ -105,6 +95,8 @@ yAxisEl
     yAxisEl.append('div')
       .attr('class', 'time-of-day__y-tick')
       .style('top', topY + '%')
+      .append('div')
+      .attr('class', 'time-of-day__y-tick-text')
       .text(d + '%\xa0');
   });
 
@@ -135,12 +127,15 @@ D3Node.d3.select(d3n.document).selectAll('.temp')
 // Write to file
 let output = d3n.html();
 
-output += `
-  <script>
-    var totalEntries = ${totalEntries};
-    var timeOfDayData = ${JSON.stringify(timeOfDayData)};
-  </script>
-`;
+// const maxY = Math.ceil(D3Node.d3.max(data, d => d.count));
+
+// output += `
+//   <script>
+//     var totalEntries = ${totalEntries};
+//     var timeOfDayData = ${JSON.stringify(timeOfDayData)};
+//     var maxY = ${maxY};
+//   </script>
+// `;
 
 fs.writeFile('source/partials/_bar-chart.html.erb', output, (err) => {
   if (err) console.log(err); // eslint-disable-line no-console

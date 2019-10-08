@@ -1,0 +1,2 @@
+music log
+- add smoothed-out version of graph

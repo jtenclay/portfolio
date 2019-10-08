@@ -27,18 +27,20 @@
     left: 0;
     position: absolute;
     top: 1px;
-    width: $spacer * 2;
+    width: 100%;
   }
 
   &__y-axis-line {
     border-right: 2px solid $link-color;
     bottom: 0;
+    left: $spacer * 2 - 1px;
     position: absolute;
-    right: -1px;
     top: 0;
   }
 
   &__chart {
+    position: relative;
+
     svg {
       display: block;
 
@@ -50,26 +52,44 @@
   }
 
   &__y-tick {
-    padding-right: $spacer / 2;
+    left: $spacer * 2;
     position: absolute;
-    right: 0;
     transform: translateY(-50%);
+    right: 0;
 
-    &:after {
+    &:before {
       border-bottom: 2px solid $link-color;
       content: '';
       display: block;
       position: absolute;
-      right: 0;
+      right: calc(100% - 1px);
       top: calc(50% - 1px);
       width: $spacer / 2;
     }
+
+    &:after {
+      border-bottom: 2px dotted $link-color;
+      content: '';
+      display: block;
+      left: 0;
+      position: absolute;
+      top: calc(50% - 1px);
+      width: 100%;
+    }
+  }
+
+  &__y-tick-text {
+    box-sizing: border-box;
+    text-align: right;
+    transform: translateX(-100%);
+    width: $spacer * 2;
+    padding-right: $spacer / 2;
   }
 
   &__x-tick {
     padding-top: $spacer / 2;
     position: absolute;
-    top: 0;
+    top: -1px;
     transform: translateX(-50%);
 
     &:after {
@@ -84,11 +104,31 @@
   }
 
   &__tooltip {
+    border-left: 2px dotted $link-color;
     display: none;
+    pointer-events: none;
     position: absolute;
+    top: 0;
 
-    &--show {
+    .time-of-day__chart:hover & {
       display: block;
+    }
+  }
+
+  &__tooltip-text {
+    padding-left: 8px;
+    position: absolute;
+    transform: translateY(calc(50% + 1px));
+    white-space: nowrap;
+
+    &:before {
+      border-bottom: 2px dotted $link-color;
+      content: '';
+      display: block;
+      left: 0;
+      position: absolute;
+      top: calc(50% - 1px);
+      width: $spacer / 2;
     }
   }
 }
