@@ -55,6 +55,7 @@ const y = D3Node.d3.scaleLinear()
   .range([height - margin.bottom, margin.top]);
 
 const area = D3Node.d3.area()
+  // .curve(D3Node.d3.curveBasis)
   .x(d => x(d.timeIndex))
   .y0(height - margin.bottom)
   .y1(d => y(d.count));
@@ -124,19 +125,11 @@ D3Node.d3.select(d3n.document).selectAll('.temp')
 // containerSVG.append('g')
 //   .call(yAxis);
 
-// Write to file
+// Prep output
 let output = d3n.html();
+output = output.replace(/(<\/?html>)|(<\/?head>)|(<\/?body>)/g, '');
 
-// const maxY = Math.ceil(D3Node.d3.max(data, d => d.count));
-
-// output += `
-//   <script>
-//     var totalEntries = ${totalEntries};
-//     var timeOfDayData = ${JSON.stringify(timeOfDayData)};
-//     var maxY = ${maxY};
-//   </script>
-// `;
-
+// Write to file
 fs.writeFile('source/partials/_bar-chart.html.erb', output, (err) => {
   if (err) console.log(err); // eslint-disable-line no-console
   else console.log('D3 charts created.'); // eslint-disable-line no-console

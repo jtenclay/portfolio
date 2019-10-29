@@ -75,6 +75,10 @@
       position: absolute;
       top: calc(50% - 1px);
       width: 100%;
+
+      .time-of-day--hide-guides & {
+        display: none;
+      }
     }
   }
 
@@ -130,5 +134,9 @@
       top: calc(50% - 1px);
       width: $spacer / 2;
     }
+  }
+
+  &__actions {
+    display: flex;
   }
 }

@@ -1,2 +1,4 @@
 music log
-- add smoothed-out version of graph
+- add smoothed-out version of graph using simplify.js
+- connect toggle
+- style toggles
