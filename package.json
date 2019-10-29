@@ -42,6 +42,7 @@
     "opera 12"
   ],
   "dependencies": {
-    "d3-node": "^2.1.0"
+    "d3-node": "^2.1.0",
+    "simplify-js": "^1.2.3"
   }
 }

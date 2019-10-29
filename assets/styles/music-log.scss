@@ -107,6 +107,20 @@
     }
   }
 
+  &__area {
+    .time-of-day--smooth-graph & {
+      display: none;
+    }
+  }
+
+  &__smoothed-area {
+    display: none;
+
+    .time-of-day--smooth-graph & {
+      display: inline;
+    }
+  }
+
   &__tooltip {
     border-left: 2px dotted $link-color;
     display: none;

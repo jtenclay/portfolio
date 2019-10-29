@@ -1,5 +1,6 @@
 const D3Node = require('d3-node');
 const fs = require('fs');
+const simplify = require('simplify-js');
 
 const timeOfDayData = JSON.parse(fs.readFileSync('data/music-log-time-of-day.json'));
 const totalEntries = JSON.parse(fs.readFileSync('data/music-log.json')).length;
@@ -10,77 +11,73 @@ const d3n = new D3Node({
   container: layout,
   selector: '.time-of-day__chart',
 });
-// const containerSVG = d3n.createSVG(1440, 900)
-//   .attr('viewBox', '0 0 1440, 900')
-//   .style('width', '100%')
-//   .style('height', 'auto');
-
-// // Draw our bars
-// containerSVG.selectAll('rect')
-//   .data(timeOfDayData)
-//   .enter()
-//   .append('rect')
-//   .attr('x', (d, i) => i)
-//   .attr('y', 0)
-//   .attr('width', 1)
-//   .attr('height', d => d * 100);
 
 const width = 1440;
 const height = 900;
-const margin = {
-  top: 0,
-  right: 0,
-  bottom: 0,
-  left: 0,
-};
 
-const containerSVG = d3n.createSVG(1440, 900)
+const containerSVG = d3n.createSVG(width, height)
   .attr('viewBox', `0 0 ${width}, ${height}`)
   .style('width', '100%')
   .style('height', 'auto');
 
+// Format data
 const data = timeOfDayData.map((count, i) => (
   {
-    timeIndex: i,
-    count: count / totalEntries * 100, // format as percentage of total entries
+    x: i, // the time index
+    y: count / totalEntries * 100, // format as percentage of total entries
   }
 ));
 
+const simplifiedData = simplify(data, 0.75, true);
+
 const x = D3Node.d3.scaleLinear()
-  .domain(D3Node.d3.extent(data, d => d.timeIndex))
-  .range([margin.left, width - margin.right]);
+  .domain(D3Node.d3.extent(data, d => d.x))
+  .range([0, width]);
 
 const y = D3Node.d3.scaleLinear()
-  .domain([0, D3Node.d3.max(data, d => d.count)]).nice()
-  .range([height - margin.bottom, margin.top]);
-
-const area = D3Node.d3.area()
-  // .curve(D3Node.d3.curveBasis)
-  .x(d => x(d.timeIndex))
-  .y0(height - margin.bottom)
-  .y1(d => y(d.count));
+  .domain([0, D3Node.d3.max(data, d => d.y)]).nice()
+  .range([height, 0]);
 
 // Draw the area
+const area = D3Node.d3.area()
+  .x(d => x(d.x))
+  .y0(height)
+  .y1(d => y(d.y));
+
 containerSVG.append('path')
   .datum(data)
+  .attr('class', 'time-of-day__area')
   .attr('stroke-width', 1.5)
   .attr('stroke-linejoin', 'round')
   .attr('stroke-linecap', 'round')
   .attr('d', area);
 
+// Draw the smoothed area
+const smoothedArea = D3Node.d3.area()
+  .curve(D3Node.d3.curveBasis)
+  .x(d => x(d.x))
+  .y0(height)
+  .y1(d => y(d.y));
+
+containerSVG.append('path')
+  .datum(simplifiedData)
+  .attr('class', 'time-of-day__smoothed-area')
+  .attr('stroke-width', 1.5)
+  .attr('stroke-linejoin', 'round')
+  .attr('stroke-linecap', 'round')
+  .attr('d', smoothedArea);
+
 // Create axes
 const xAxis = g => g
-  .attr('transform', `translate(0, ${height - margin.bottom})`)
+  .attr('transform', `translate(0, ${height})`)
   .call(D3Node.d3.axisBottom(x)
-    .tickValues([0, 360, 720, 1080, 1440]) // every six hours
-    .tickFormat(minute => `${minute / 60}h`)
-    .tickSizeOuter(0));
+    .tickValues([0, 360, 720, 1080, 1440])); // every six hours
 
 const yAxis = g => g
   .call(D3Node.d3.axisLeft(y)
-    .ticks(4)
-    .tickFormat(percent => `${percent}%`));
+    .ticks(4));
 
+// Reformat axes
 const yAxisEl = D3Node.d3.select(d3n.document.querySelector('.time-of-day__y-axis'));
 
 yAxisEl.append('div')
@@ -122,12 +119,8 @@ xAxisEl
 D3Node.d3.select(d3n.document).selectAll('.temp')
   .remove();
 
-// containerSVG.append('g')
-//   .call(yAxis);
-
 // Prep output
-let output = d3n.html();
-output = output.replace(/(<\/?html>)|(<\/?head>)|(<\/?body>)/g, '');
+const output = d3n.html().replace(/(<\/?html>)|(<\/?head>)|(<\/?body>)/g, '');
 
 // Write to file
 fs.writeFile('source/partials/_bar-chart.html.erb', output, (err) => {
