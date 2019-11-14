@@ -112,7 +112,7 @@ GEM
     minitest (5.11.3)
     multi_json (1.13.1)
     multipart-post (2.1.1)
-    nokogiri (1.10.3)
+    nokogiri (1.10.5)
       mini_portile2 (~> 2.4.0)
     os (1.0.1)
     padrino-helpers (0.13.3.4)
