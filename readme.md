@@ -13,3 +13,4 @@ From the repo root, run `bundle install && yarn` to install dependencies. Watch 
 
 * This repo contains submodules.
 * You'll have to grab the fonts yourself.
+* Google Docs data is pulled through a service account with credentials in `data/service-account.json`, which is not checked in.

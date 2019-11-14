@@ -1,0 +1,4 @@
+music log
+- update deps for security fixes
+- figure out how to show median on the time by date graph
+- style toggles
