@@ -1,6 +1,7 @@
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const publicPath = process.env.NODE_ENV === 'development'
   ? path.resolve(__dirname, 'dist')
@@ -57,15 +58,16 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              minimize: true,
               sourceMap: true
             }
-          }, {
+          },
+          {
             loader: 'postcss-loader',
             options: {
               sourceMap: true
             }
-          }, {
+          },
+          {
             loader: 'sass-loader',
             options: {
               sourceMap: true
@@ -92,6 +94,7 @@ module.exports = {
     }),
     new UglifyJsPlugin({
       sourceMap: true
-    })
+    }),
+    new OptimizeCssAssetsPlugin()
   ]
 };
