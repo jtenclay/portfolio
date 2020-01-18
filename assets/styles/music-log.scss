@@ -156,10 +156,12 @@
     font-size: 14px;
     font-weight: 500;
     letter-spacing: 0.5px;
+    padding-left: $spacer * 2 - 1px;
 
     label {
       align-items: center;
       display: flex;
+      line-height: 1;
       margin-right: $spacer;
 
       &:active {

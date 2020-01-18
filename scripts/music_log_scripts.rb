@@ -86,14 +86,16 @@ def sync_music_log
   entries = Array.new
 
   rows[1..-1].each do |row|
-    entries << {
-      date: Date.strptime(row[0], '%m/%d/%y'),
-      start_time: row[1],
-      duration: row[2].to_i,
-      instrument: row[3],
-      description: row[4],
-      tags: row[5].split(', ')
-    }
+    unless row[1].empty?
+      entries << {
+        date: Date.strptime(row[0], '%m/%d/%y'),
+        start_time: row[1],
+        duration: row[2].to_i,
+        instrument: row[3],
+        description: row[4],
+        tags: row[5].split(', ')
+      }
+    end
   end
 
   File.open('data/music-log.json', 'w') { |f| f << entries.to_json }

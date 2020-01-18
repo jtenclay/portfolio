@@ -7,12 +7,18 @@ title: Music log | Jackson Tenclay
 <% total_hours, total_minutes = totals_data['total_time'].divmod(60) %>
 
 <div class="text-block">
+  <p>
+    I've played piano since I was a kid and majored in Music Performance in college. Afterwards, though, the lack of formal structure meant that it gradually left my life until I ended up giving my piano away a couple years after graduation.
+  </p>
+  <p>
+    On June 12, 2019, after about five years without a piano, I finally missed it enough to cave in and get myself a new one. Worried that I might come to neglect it again, on June 20 I resolved to play some sort of music each day, with the hope that the time would add up to something meaningful. Here's some real-time data about how it's been going.
+  </p>
   <h2>Minutes per day</h2>
   <p>
-    This graph shows how the amount of time I spent making music changed over time.
+    This graph shows how the amount of time I spent making music changed over time. The initial intent was to keep it above 15 minutes per day; my current median time is <%= totals_data['median_time_per_day'] %> minutes.
   </p>
   <%= partial 'partials/_time-by-date-chart' %>
-  <ul>
+<!--   <ul>
     <% data['music-log-by-date'].reverse.each do |entry| %>
       <% hours, minutes = entry['duration'].divmod(60) %>
 
@@ -26,17 +32,29 @@ title: Music log | Jackson Tenclay
     Median minutes per session: <%= totals_data['median_time_per_entry'] %>
     <br>
     Median minutes per day: <%= totals_data['median_time_per_day'] %>
-  </p>
+  </p> -->
 
   <h2>Totals and streaks</h2>
   <p>
-    Total time: <%= total_hours %> hrs, <%= total_minutes %> mins
+    In total, I've spent <%= total_hours %> hours, <%= total_minutes %> minutes in intentional music practice. I don't count "incidental music" like singing along to songs, going to concerts, or inactive listening.
   </p>
+
+  <% if streaks_data['streaks'].last.length == streaks_data['longest_streak'].length %>
+    <%# If I've continued the big streak %>
+    <p>
+      My current streak is <%= streaks_data['streaks'].last.length %> days. The intention is to make it to 1500 days (about 4 years), so I'm % of the way there.
+    </p>
+  <% else %>
+    <%# If I've begun a new streak %>
+    <p>
+      My current streak is <%= streaks_data['streaks'].last.length %> days; my longest streak was <%= streaks_data['longest_streak'].length %> days (<%= streaks_data['longest_streak'].first['date'] %> to <%= streaks_data['longest_streak'].last['date'] %>).
+    </p>
+    <p>
+      The intention is to make it to 1500 days (about 4 years).
+    </p>
+  <% end %>
   <p>
-    Longest streak: <%= streaks_data['longest_streak'].length %> days
-    (<%= streaks_data['longest_streak'].first['date'] %> to <%= streaks_data['longest_streak'].last['date'] %>)
-    <br>
-    Current streak: <%= streaks_data['streaks'].last.length %> days
+    ****** format dates, add percentage of goal, add conditional language if streak ends
   </p>
 
   <h2>Time of day</h2>
@@ -44,4 +62,10 @@ title: Music log | Jackson Tenclay
     This graph shows what percentage of my practice entries included a particular minute of the day.
   </p>
   <%= partial 'partials/_bar-chart' %>
+
+  <h2>Fine print</h2>
+  <p>
+    (rules for myself)
+    - maybe call out the statistics hidden in paragraph text with a separate color ?
+  </p>
 </div>
