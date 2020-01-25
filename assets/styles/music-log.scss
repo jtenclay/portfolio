@@ -18,7 +18,7 @@
     border-top: 2px solid $middle-link-color;
     left: 0;
     position: absolute;
-    right: 0;
+    right: -1px;
     top: -1px;
   }
 
@@ -166,7 +166,7 @@
 
       &:active {
         .d3-vis__checkbox-image {
-          background-color: $link-color;
+          background-color: $link-color !important;
         }
       }
     }
@@ -176,10 +176,11 @@
       pointer-events: none;
       position: absolute;
 
-      + .d3-vis__checkbox-image {
+      + label .d3-vis__checkbox-image {
         border: 2px solid $middle-link-color;
         border-radius: 4px;
         display: inline-block;
+        flex-shrink: 0;
         height: 14px;
         margin-right: $spacer / 4;
         width: 14px;
@@ -189,9 +190,9 @@
           height: 14px;
           width: 14px;
 
-          polyline {
+          polyline, path {
             fill: none;
-            stroke: $middle-link-color;
+            stroke: $bg-color;
             stroke-width: 2px;
             stroke-linecap: round;
             stroke-linejoin: round;
@@ -199,9 +200,20 @@
         }
       }
 
-      &:checked + .d3-vis__checkbox-image svg {
-        display: block;
+      &:checked + label .d3-vis__checkbox-image {
+        background-color: $middle-link-color;
+
+        svg {
+          display: block;
+        }
       }
     }
   }
+
+  body:not(.using-mouse) & {
+    &__actions input:focus + label {
+      @include false-focus();
+    }
+  }
 }
+
