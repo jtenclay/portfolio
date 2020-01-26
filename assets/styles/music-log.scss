@@ -121,6 +121,20 @@
     }
   }
 
+  &--time-by-date {
+    .d3-vis--cropped-graph & {
+      display: none;
+    }
+  }
+
+  &--time-by-date-cropped {
+    display: none;
+
+    .d3-vis--cropped-graph & {
+      display: block;
+    }
+  }
+
   &__tooltip {
     border-left: 2px dotted $middle-link-color;
     display: none;

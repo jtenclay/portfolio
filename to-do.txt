@@ -2,4 +2,5 @@ music log
 - update deps for security fixes
   - consider downgrading postcss below 1.0.0 to see if that fixes sourcemaps etc.
 - figure out how to show median on the time by date graph
-- style toggles
+- add option to restrict time to under two hours?
+- cachebust css...
