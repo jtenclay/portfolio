@@ -27,6 +27,7 @@
     left: 0;
     position: absolute;
     top: 1px;
+    transition: opacity 0.4s ease-in-out;
     width: 100%;
   }
 
@@ -39,10 +40,12 @@
   }
 
   &__chart {
+    overflow: hidden;
     position: relative;
 
     svg {
       display: block;
+      transition: transform 0.4s ease-in-out;
 
       path {
         fill: $middle-link-color;
@@ -121,18 +124,8 @@
     }
   }
 
-  &--time-by-date {
-    .d3-vis--cropped-graph & {
-      display: none;
-    }
-  }
-
-  &--time-by-date-cropped {
-    display: none;
-
-    .d3-vis--cropped-graph & {
-      display: block;
-    }
+  &--time-by-date svg {
+    transform-origin: bottom;
   }
 
   &__tooltip {
@@ -231,3 +224,14 @@
   }
 }
 
+.d3-vis__y-axis--cropped {
+  opacity: 0;
+
+  .d3-vis--cropped-graph & {
+    opacity: 1;
+  }
+}
+
+.d3-vis--cropped-graph .d3-vis__y-axis--uncropped {
+  opacity: 0;
+}
