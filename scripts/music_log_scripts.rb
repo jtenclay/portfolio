@@ -6,6 +6,7 @@ require 'json'
 def find_streaks(ordered_entries_by_date)
   prev = ordered_entries_by_date.first
   streaks = ordered_entries_by_date
+    .select { |e| e[:duration] > 0 }
     .slice_before { |e| prev, prev2 = e, prev; prev2[:date] + 1.day != e[:date] }
     .to_a
 
