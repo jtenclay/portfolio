@@ -4,6 +4,7 @@ title: Music log | Jackson Tenclay
 
 <% streaks_data = data['music-log-streaks'] %>
 <% totals_data = data['music-log-totals'] %>
+<% total_days = data['music-log-totals'][:total_days] %>
 <% total_hours, total_minutes = totals_data['total_time'].divmod(60) %>
 
 <div class="text-block">
@@ -25,7 +26,7 @@ title: Music log | Jackson Tenclay
   </p>
   <h2>Minutes per day</h2>
   <p>
-    This graph shows how the amount of time I spent making music changed over time. The initial intent was to keep it above 15 minutes per day; my current median time is <%= totals_data['median_time_per_day'] %> minutes.
+    This graph shows how the amount of time I’ve spent making music has changed over time. The initial intent was to keep it above 15 minutes per day; my current median time is <%= totals_data['median_time_per_day'] %> minutes.
   </p>
   <%= partial 'partials/_time-by-date-chart' %>
 <!--   <ul>
@@ -46,23 +47,15 @@ title: Music log | Jackson Tenclay
 
   <h2>Totals and streaks</h2>
   <p>
-    In total, I've spent <%= total_hours %> hours, <%= total_minutes %> minutes in intentional music practice. I don't count "incidental music" like singing along to songs, going to concerts, or inactive listening.
+    So far, I've spent <%= total_hours %> hours, <%= total_minutes %> minutes in intentional music practice. I don't count "incidental music" like singing along to songs, going to concerts, or inactive listening.
   </p>
 
-  <% if streaks_data['streaks'].last.length == streaks_data['longest_streak'].length %>
-    <%# If I've continued the big streak %>
-    <p>
-      My current streak is <%= streaks_data['streaks'].last.length %> days and started on <%= Date.parse(streaks_data['longest_streak'].first['date']).strftime('%B %-d, %Y') %>. The intention is to make it to 1500 days (about 4 years), so I'm <%= (streaks_data['streaks'].last.length / 15.0).round(1) %>% of the way there.
-    </p>
-  <% else %>
-    <%# If I've begun a new streak %>
-    <p>
-      My current streak is <%= streaks_data['streaks'].last.length %> days; my longest streak was <%= streaks_data['longest_streak'].length %> days (<%= Date.parse(streaks_data['longest_streak'].first['date']).strftime('%B %-d, %Y') %> to <%= Date.parse(streaks_data['longest_streak'].last['date']).strftime('%B %-d, %Y') %>).
-    </p>
-    <p>
-      The intention is to make it to 1500 days (about 4 years).
-    </p>
-  <% end %>
+  <p>
+    My current streak is <%= streaks_data['streaks'].last.length %> days; my longest streak was <%= streaks_data['longest_streak'].length %> days (<%= Date.parse(streaks_data['longest_streak'].first['date']).strftime('%B %-d, %Y') %> to <%= Date.parse(streaks_data['longest_streak'].last['date']).strftime('%B %-d, %Y') %>).
+  </p>
+  <p>
+    The intention is to make it to 1500 days in total (about 4 years), so I'm <%= (total_days / 15.0).round(1) %>% of the way there.
+  </p>
 
   <h2>Time of day</h2>
   <p>

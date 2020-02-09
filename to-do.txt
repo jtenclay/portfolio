@@ -4,3 +4,4 @@ music log
 - figure out how to show median on the time by date graph
 - add option to restrict time to under two hours?
 - cachebust css...
+- fix corners in time by date svg after cropping
