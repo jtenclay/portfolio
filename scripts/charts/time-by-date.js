@@ -2,11 +2,11 @@ const D3Node = require('d3-node');
 const fs = require('fs');
 
 const timeByDateData = JSON.parse(fs.readFileSync('data/music-log-by-date.json'));
-const layout = fs.readFileSync('source/partials/_time-by-date-layout.erb');
+const erbLayout = fs.readFileSync('source/partials/_time-by-date-layout.erb');
 
 // Initialize D3 and a container element
 const d3n = new D3Node({
-  container: layout,
+  container: erbLayout,
   selector: '.d3-vis__chart',
 });
 
@@ -34,8 +34,13 @@ const y = D3Node.d3.scaleLinear()
   .domain([0, D3Node.d3.max(data, d => d.y)]).nice()
   .range([height, 0]);
 
+const croppedY = D3Node.d3.scaleLinear()
+  .domain([0, 120]).nice()
+  .range([height, 0]);
+
 // Draw the area
 const area = D3Node.d3.area()
+  .curve(D3Node.d3.curveStepBefore)
   .x(d => x(d.x))
   .y0(height)
   .y1(d => y(d.y));
@@ -58,30 +63,40 @@ const yAxis = g => g
   .call(D3Node.d3.axisLeft(y)
     .ticks(4));
 
+const croppedYAxis = g => g
+  .call(D3Node.d3.axisLeft(croppedY)
+    .ticks(4));
+
 // Reformat axes
-const yAxisEl = D3Node.d3.select(d3n.document.querySelector('.d3-vis__y-axis'));
 
-yAxisEl.append('div')
-  .attr('class', 'temp')
-  .call(yAxis);
+function reformatYAxis(axis, selector) {
+  const yAxisEl = D3Node.d3.select(d3n.document.querySelector(selector));
 
-yAxisEl
-  .selectAll('g')
-  .each((d, i, nodes) => {
-    const transformY = D3Node.d3.select(nodes[i]).attr('transform').match(/,([\d.]*)\)/)[1];
-    const topY = parseInt(transformY, 10) / 900 * 100;
+  yAxisEl.append('div')
+    .attr('class', 'temp')
+    .call(axis);
 
-    // Format hours and minutes
-    const hours = Math.floor(d / 60);
-    const minutes = d % 60;
+  yAxisEl
+    .selectAll('g')
+    .each((d, i, nodes) => {
+      const transformY = D3Node.d3.select(nodes[i]).attr('transform').match(/,([\d.]*)\)/)[1];
+      const topY = parseInt(transformY, 10) / 900 * 100;
 
-    yAxisEl.append('div')
-      .attr('class', 'd3-vis__y-tick')
-      .style('top', topY + '%')
-      .append('div')
-      .attr('class', 'd3-vis__y-tick-text')
-      .text(`${hours}:${minutes > 9 ? minutes : '0' + minutes}`);
-  });
+      // Format hours and minutes
+      const hours = Math.floor(d / 60);
+      const minutes = d % 60;
+
+      yAxisEl.append('div')
+        .attr('class', 'd3-vis__y-tick')
+        .style('top', topY + '%')
+        .append('div')
+        .attr('class', 'd3-vis__y-tick-text')
+        .text(`${hours}:${minutes > 9 ? minutes : '0' + minutes}`);
+    });
+}
+
+reformatYAxis(yAxis, '.d3-vis__y-axis--uncropped');
+reformatYAxis(croppedYAxis, '.d3-vis__y-axis--cropped');
 
 const xAxisEl = D3Node.d3.select(d3n.document.querySelector('.d3-vis__x-axis'));
 
@@ -108,8 +123,25 @@ D3Node.d3.select(d3n.document).selectAll('.temp')
 // Prep output
 const output = d3n.html().replace(/(<\/?html>)|(<\/?head>)|(<\/?body>)/g, '');
 
+// const layoutWithFullGraph = createChart(erbLayout, null, '.d3-vis--time-by-date');
+// const layoutWithBothGraphs = createChart(layoutWithFullGraph, 120, '.d3-vis--time-by-date-cropped');
+
+const scaleAmount = D3Node.d3.scaleLinear()
+  .domain([0, D3Node.d3.max(data, d => d.y)])
+  .nice()
+  .domain()[1] / 120;
+
+const finalOutput = output + `
+  <style type="text/css">
+    .d3-vis--cropped-graph .d3-vis__chart svg {
+      transform: scaleY(${scaleAmount});
+    }
+  </style>
+`;
+
+
 // Write to file
-fs.writeFile('source/partials/_time-by-date-chart.html.erb', output, (err) => {
+fs.writeFile('source/partials/_time-by-date-chart.html.erb', finalOutput, (err) => {
   if (err) console.log(err); // eslint-disable-line no-console
   else console.log('D3 charts created.'); // eslint-disable-line no-console
 });

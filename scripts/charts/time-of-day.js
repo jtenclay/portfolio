@@ -40,6 +40,7 @@ const y = D3Node.d3.scaleLinear()
 
 // Draw the area
 const area = D3Node.d3.area()
+  .curve(D3Node.d3.curveStepBefore)
   .x(d => x(d.x))
   .y0(height)
   .y1(d => y(d.y));

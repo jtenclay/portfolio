@@ -59,12 +59,14 @@ def find_totals(entries, ordered_entries_by_date)
 
   median_time_per_entry = median(entries.map { |entry| entry[:duration] })
   median_time_per_day = median(ordered_entries_by_date.map { |date| date[:duration] })
+  total_days = ordered_entries_by_date.select { |date| date[:duration] > 0 }
 
   totals = {
     entries_by_tag: entries_by_tag,
     median_time_per_day: median_time_per_day,
     median_time_per_entry: median_time_per_entry,
-    total_time: entries.reduce(0) { |sum, num| sum + num[:duration] }
+    total_time: entries.reduce(0) { |sum, num| sum + num[:duration] },
+    total_days: total_days.length
   }
 
   File.open('data/music-log-totals.json', 'w') { |f| f << totals.to_json }
@@ -86,14 +88,16 @@ def sync_music_log
   entries = Array.new
 
   rows[1..-1].each do |row|
-    entries << {
-      date: Date.strptime(row[0], '%m/%d/%y'),
-      start_time: row[1],
-      duration: row[2].to_i,
-      instrument: row[3],
-      description: row[4],
-      tags: row[5].split(', ')
-    }
+    unless row[2].empty?
+      entries << {
+        date: Date.strptime(row[0], '%m/%d/%y'),
+        start_time: row[1],
+        duration: row[2].to_i,
+        instrument: row[3],
+        description: row[4],
+        tags: row[5].split(', ')
+      }
+    end
   end
 
   File.open('data/music-log.json', 'w') { |f| f << entries.to_json }

@@ -3,8 +3,22 @@
 $bg-color: #EBFFF3;
 $text-color: #222624;
 $link-color: #9fe2ba;
+$middle-link-color: #5BA679;
+$dark-link-color: #2D804E;
 
 $spacer: 30px;
+
+@mixin false-focus() {
+  outline-width: 2px;
+  outline-style: solid;
+  outline-color: Highlight;
+
+  // For WebKit
+  @media (-webkit-min-device-pixel-ratio: 0) {
+    outline-color: -webkit-focus-ring-color;
+    outline-style: auto;
+  }
+}
 
 // @import "default-background";
 // @import "eina";
@@ -78,6 +92,51 @@ body {
       outline: none;
     }
   }
+
+  .back-link {
+    align-items: center;
+    display: flex;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    line-height: 1;
+    padding-bottom: 3px;
+    position: absolute;
+    top: 15vh;
+    transform: translateY(-50%);
+    box-shadow: 0 2px 0 0px $middle-link-color;
+
+    div {
+      color: $middle-link-color;
+    }
+
+    svg {
+      display: block;
+      height: 14px;
+      margin-right: $spacer / 4;
+      width: 14px;
+
+      polyline, path {
+        fill: none;
+        stroke: $middle-link-color;
+        stroke-width: 2px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+    }
+
+    &:hover {
+
+      div {
+        color: $text-color;
+      }
+
+      polyline, path {
+        stroke: $text-color;
+      }
+    }
+  }
+
 
   @media only screen and (max-width: 800px) {
     h2, p {

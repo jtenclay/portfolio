@@ -1,8 +1,8 @@
 .d3-vis {
-  color: $link-color;
+  color: $middle-link-color;
   font-size: 14px;
   font-weight: 500;
-  letter-spacing: 1.65px;
+  letter-spacing: 0.5px;
   padding: 0 0 $spacer * 2 $spacer * 2;
   position: relative;
 
@@ -15,10 +15,10 @@
   }
 
   &__x-axis-line {
-    border-top: 2px solid $link-color;
+    border-top: 2px solid $middle-link-color;
     left: 0;
     position: absolute;
-    right: 0;
+    right: -1px;
     top: -1px;
   }
 
@@ -27,11 +27,12 @@
     left: 0;
     position: absolute;
     top: 1px;
+    transition: opacity 0.4s ease-in-out;
     width: 100%;
   }
 
   &__y-axis-line {
-    border-right: 2px solid $link-color;
+    border-right: 2px solid $middle-link-color;
     bottom: 0;
     left: $spacer * 2 - 1px;
     position: absolute;
@@ -39,14 +40,15 @@
   }
 
   &__chart {
+    overflow: hidden;
     position: relative;
 
     svg {
       display: block;
+      transition: transform 0.4s ease-in-out;
 
       path {
-        fill: $link-color;
-        stroke: $link-color;
+        fill: $middle-link-color;
       }
     }
   }
@@ -58,7 +60,7 @@
     right: 0;
 
     &:before {
-      border-bottom: 2px solid $link-color;
+      border-bottom: 2px solid $middle-link-color;
       content: '';
       display: block;
       position: absolute;
@@ -71,10 +73,10 @@
       border-bottom: 2px dotted $link-color;
       content: '';
       display: block;
-      left: 0;
+      left: 1px;
       position: absolute;
       top: calc(50% - 1px);
-      width: 100%;
+      width: calc(100% - 1px);
 
       .d3-vis--hide-guides & {
         display: none;
@@ -97,7 +99,7 @@
     transform: translateX(-50%);
 
     &:after {
-      border-right: 2px solid $link-color;
+      border-right: 2px solid $middle-link-color;
       content: '';
       display: block;
       position: absolute;
@@ -121,8 +123,12 @@
     }
   }
 
+  &--time-by-date svg {
+    transform-origin: bottom;
+  }
+
   &__tooltip {
-    border-left: 2px dotted $link-color;
+    border-left: 2px dotted $middle-link-color;
     display: none;
     pointer-events: none;
     position: absolute;
@@ -140,7 +146,7 @@
     white-space: nowrap;
 
     &:before {
-      border-bottom: 2px dotted $link-color;
+      border-bottom: 2px dotted $middle-link-color;
       content: '';
       display: block;
       left: 0;
@@ -151,23 +157,80 @@
   }
 
   &__actions {
+    color: $middle-link-color;
     display: flex;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    padding-left: $spacer * 2 - 1px;
+
+    label {
+      align-items: center;
+      display: flex;
+      line-height: 1;
+      margin-right: $spacer;
+
+      &:active {
+        .d3-vis__checkbox-image {
+          background-color: $link-color !important;
+        }
+      }
+    }
 
     input {
       opacity: 0;
       pointer-events: none;
       position: absolute;
 
-      + .d3-vis__checkbox-image {
-        background-color: yellow; // for now
+      + label .d3-vis__checkbox-image {
+        border: 2px solid $middle-link-color;
+        border-radius: 4px;
         display: inline-block;
-        height: $spacer / 2;
-        width: $spacer / 2;
+        flex-shrink: 0;
+        height: 14px;
+        margin-right: $spacer / 4;
+        width: 14px;
+
+        svg {
+          display: none;
+          height: 14px;
+          width: 14px;
+
+          polyline, path {
+            fill: none;
+            stroke: $bg-color;
+            stroke-width: 2px;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+          }
+        }
       }
 
-      &:checked + .d3-vis__checkbox-image {
-        background-color: brown; // for now
+      &:checked + label .d3-vis__checkbox-image {
+        background-color: $middle-link-color;
+
+        svg {
+          display: block;
+        }
       }
     }
   }
+
+  body:not(.using-mouse) & {
+    &__actions input:focus + label {
+      @include false-focus();
+    }
+  }
+}
+
+.d3-vis__y-axis--cropped {
+  opacity: 0;
+
+  .d3-vis--cropped-graph & {
+    opacity: 1;
+  }
+}
+
+.d3-vis--cropped-graph .d3-vis__y-axis--uncropped {
+  opacity: 0;
 }
