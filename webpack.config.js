@@ -7,12 +7,12 @@ const publicPath = process.env.NODE_ENV === 'development'
   ? path.resolve(__dirname, 'dist')
   : 'https://www.jacksontenclay.com/';
 
-module.exports = {
+module.exports = env => ({
   entry: './assets/scripts/main.js',
   output: {
-    path: path.resolve(__dirname, '.tmp/dist/assets'),
+    path: path.resolve(__dirname, '.tmp/dist/assets', env.cachebust_string.toString()),
     filename: 'scripts/bundle.js',
-    publicPath
+    publicPath: publicPath + env.cachebust_string + '/'
   },
   devtool: 'source-map',
   module: {
@@ -97,4 +97,4 @@ module.exports = {
     }),
     new OptimizeCssAssetsPlugin()
   ]
-};
+});

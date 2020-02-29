@@ -1,6 +1,10 @@
 # Activate and configure extensions
 # https://middlemanapp.com/advanced/configuration/#configuring-extensions
 
+require 'date'
+
+cachebust_string = Date.today.to_time.to_i
+
 activate :autoprefixer do |prefix|
   prefix.browsers = "last 2 versions"
 end
@@ -8,13 +12,13 @@ end
 activate :external_pipeline,
          name: :webpack,
          command: build? ?
-         "./node_modules/webpack/bin/webpack.js --bail -p" :
-         "./node_modules/webpack/bin/webpack.js --watch -d --progress --color",
+         "./node_modules/webpack/bin/webpack.js --bail -p --env.cachebust_string=#{cachebust_string}" :
+         "./node_modules/webpack/bin/webpack.js --watch -d --progress --color --env.cachebust_string=#{cachebust_string}",
          source: ".tmp/dist",
          latency: 1
 
-set :css_dir, 'assets/styles'
-set :js_dir, 'assets/scripts'
+set :css_dir, "assets/#{cachebust_string}/styles"
+set :js_dir, "assets/#{cachebust_string}/scripts"
 set :images_dir, 'assets/img'
 
 # Reload the browser automatically whenever files change
