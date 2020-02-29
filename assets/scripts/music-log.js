@@ -3,7 +3,6 @@ if (window.location.href.indexOf('music-log') !== -1) {
 
   visualizations.forEach((vis) => {
     const guideCheckboxToggle = vis.querySelector('.d3-vis__guide-checkbox');
-    const smoothGraphToggle = vis.querySelector('.d3-vis__smooth-graph');
     const cropGraphToggle = vis.querySelector('.d3-vis__crop-graph');
 
     if (guideCheckboxToggle) {
@@ -18,25 +17,13 @@ if (window.location.href.indexOf('music-log') !== -1) {
       });
     }
 
-    if (smoothGraphToggle) {
-      smoothGraphToggle.addEventListener('click', (e) => {
-        if (e.currentTarget.checked) {
-          // Show smoothed area
-          vis.classList.add('d3-vis--smooth-graph');
-        } else {
-          // Show precise area
-          vis.classList.remove('d3-vis--smooth-graph');
-        }
-      });
-    }
-
     if (cropGraphToggle) {
       cropGraphToggle.addEventListener('click', (e) => {
         if (e.currentTarget.checked) {
-          // Show smoothed area
+          // Show cropped area
           vis.classList.add('d3-vis--cropped-graph');
         } else {
-          // Show precise area
+          // Show full area
           vis.classList.remove('d3-vis--cropped-graph');
         }
       });

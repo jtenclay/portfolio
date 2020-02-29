@@ -1,8 +1,7 @@
 const D3Node = require('d3-node');
 const fs = require('fs');
-const simplify = require('simplify-js');
 
-const timeOfDayData = JSON.parse(fs.readFileSync('data/music-log-time-of-day.json'));
+const timeOfDayData = JSON.parse(fs.readFileSync('data/music-log-time-of-day-rolling-average.json'));
 const totalEntries = JSON.parse(fs.readFileSync('data/music-log.json')).length;
 const layout = fs.readFileSync('source/partials/_time-of-day-layout.erb');
 
@@ -28,8 +27,6 @@ const data = timeOfDayData.map((count, i) => (
   }
 ));
 
-const simplifiedData = simplify(data, 0.75, true);
-
 const x = D3Node.d3.scaleLinear()
   .domain(D3Node.d3.extent(data, d => d.x))
   .range([0, width]);
@@ -40,7 +37,7 @@ const y = D3Node.d3.scaleLinear()
 
 // Draw the area
 const area = D3Node.d3.area()
-  .curve(D3Node.d3.curveStepBefore)
+  .curve(D3Node.d3.curveBasis)
   .x(d => x(d.x))
   .y0(height)
   .y1(d => y(d.y));
@@ -52,21 +49,6 @@ containerSVG.append('path')
   .attr('stroke-linejoin', 'round')
   .attr('stroke-linecap', 'round')
   .attr('d', area);
-
-// Draw the smoothed area
-const smoothedArea = D3Node.d3.area()
-  .curve(D3Node.d3.curveBasis)
-  .x(d => x(d.x))
-  .y0(height)
-  .y1(d => y(d.y));
-
-containerSVG.append('path')
-  .datum(simplifiedData)
-  .attr('class', 'd3-vis__smoothed-area')
-  .attr('stroke-width', 1.5)
-  .attr('stroke-linejoin', 'round')
-  .attr('stroke-linecap', 'round')
-  .attr('d', smoothedArea);
 
 // Create axes
 const xAxis = g => g

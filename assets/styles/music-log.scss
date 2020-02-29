@@ -109,20 +109,6 @@
     }
   }
 
-  &__area {
-    .d3-vis--smooth-graph & {
-      display: none;
-    }
-  }
-
-  &__smoothed-area {
-    display: none;
-
-    .d3-vis--smooth-graph & {
-      display: inline;
-    }
-  }
-
   &--time-by-date svg {
     transform-origin: bottom;
   }

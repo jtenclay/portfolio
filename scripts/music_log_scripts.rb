@@ -36,10 +36,13 @@ def find_time_of_day(entries)
     end
   end
 
+  create_rolling_average(time_array)
+
   # Duplicate midnight at the end for continuity
   time_array << time_array.first
 
   File.open('data/music-log-time-of-day.json', 'w') { |f| f << time_array.to_json }
+
 end
 
 def find_totals(entries, ordered_entries_by_date)
@@ -131,6 +134,28 @@ def reduce_music_log_by_date(entries)
 
   find_totals(entries, ordered_entries_by_date)
   find_streaks(ordered_entries_by_date)
+end
+
+def create_rolling_average(time_array)
+  time_difference = 10
+  rolling_averages = []
+
+  time_array.each_with_index do |day, i|
+    acc = day
+
+    time_difference.times do |d|
+      diff = d + 1
+      acc += time_array[i - diff]
+      acc += (time_array[i + diff] or time_array[i + diff - time_array.length])
+    end
+
+    rolling_averages << (acc / (time_difference * 2.0 + 1)).round(2)
+  end
+
+  # Duplicate midnight at the end for continuity
+  rolling_averages << rolling_averages.first
+
+  File.open('data/music-log-time-of-day-rolling-average.json', 'w') { |f| f << rolling_averages.to_json }
 end
 
 sync_music_log
