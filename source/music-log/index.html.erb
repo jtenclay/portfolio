@@ -6,6 +6,7 @@ title: Music log | Jackson Tenclay
 <% totals_data = data['music-log-totals'] %>
 <% total_days = data['music-log-totals'][:total_days] %>
 <% total_hours, total_minutes = totals_data['total_time'].divmod(60) %>
+<% inline_tags = data['music-log-inline-tags'] %>
 
 <div class="text-block">
   <a class="back-link" href="/">
@@ -19,10 +20,10 @@ title: Music log | Jackson Tenclay
   </a>
 
   <p>
-    I've played piano since I was a kid and majored in Music Performance in college. Afterwards, though, the lack of formal structure meant that it gradually left my life until I ended up giving my piano away a couple years after graduation.
+    I’ve played piano since I was a kid and majored in Music Performance in college. Afterwards, though, the lack of formal structure meant that it gradually left my life until I ended up giving my piano away a couple years after graduation.
   </p>
   <p>
-    On June 12, 2019, after about five years without a piano, I finally missed it enough to cave in and get myself a new one. Worried that I might come to neglect it again, on June 20 I resolved to play some sort of music each day, with the hope that the time would add up to something meaningful. Here's some real-time data about how it's been going.
+    On June 12, 2019, after about five years without a piano, I finally missed it enough to cave in and get myself a new one. Worried that I might come to neglect it again, on June 20 I resolved to play some sort of music each day, with the hope that the time would add up to something meaningful. Here’s some real-time data about how it’s been going.
   </p>
   <h2>Minutes per day</h2>
   <p>
@@ -47,21 +48,36 @@ title: Music log | Jackson Tenclay
 
   <h2>Totals and streaks</h2>
   <p>
-    So far, I've spent <%= total_hours %> hours, <%= total_minutes %> minutes in intentional music practice. I don't count "incidental music" like singing along to songs, going to concerts, or inactive listening.
+    So far, I’ve spent <%= total_hours %> hours, <%= total_minutes %> minutes in intentional music practice. I don’t count “incidental music” like singing along to songs, going to concerts, or inactive listening.
   </p>
 
   <p>
     My current streak is <%= streaks_data['streaks'].last.length %> days; my longest streak was <%= streaks_data['longest_streak'].length %> days (<%= Date.parse(streaks_data['longest_streak'].first['date']).strftime('%B %-d, %Y') %> to <%= Date.parse(streaks_data['longest_streak'].last['date']).strftime('%B %-d, %Y') %>).
   </p>
   <p>
-    The intention is to make it to 1500 days in total (about 4 years), so I'm <%= (total_days / 15.0).round(1) %>% of the way there.
+    The intention is to make it to 1500 days in total (about 4 years), so I’m <%= (total_days / 15.0).round(1) %>% of the way there.
   </p>
+  <div class="totals-vis">
+    <div class="totals-vis__graph">
+      <div class="totals-vis__graph-outline"></div>
+      <div class="totals-vis__completed-area" style="width: <%= (total_days / 15.0).round(1) %>%;"></div>
+    </div>
+  </div>
 
   <h2>Time of day</h2>
   <p>
     This graph shows what percentage of my practice entries included a particular minute of the day (20-min rolling average).
   </p>
   <%= partial 'partials/_bar-chart' %>
+
+  <h2>???</h2>
+  <div class="inline-tags">
+    <% inline_tags.reverse.each do |tag| %><span class="inline-tags__tag"><span class="inline-tags__name"><%= tag[0] %></span><span class="inline-tags__vis" style="width: <%= tag[1] %>px;"></span></span><% end %>
+  </div>
+
+
+  <h2>????</h2>
+  <%= partial 'partials/_tags-chart' %>
 
   <%# <h2>Fine print</h2>
   <p>

@@ -1,0 +1,26 @@
+.totals-vis {
+  padding-left: $spacer * 2;
+
+  &__graph {
+    height: 60px;
+    position: relative;
+  }
+
+  &__graph-outline {
+    box-sizing: border-box;
+    border: 2px dotted $link-color;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  &__completed-area {
+    background-color: $middle-link-color;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+  }
+}

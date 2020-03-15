@@ -1,3 +1,6 @@
+@import "totals-vis";
+@import "inline-tags";
+
 .d3-vis {
   color: $middle-link-color;
   font-size: 14px;
@@ -111,6 +114,14 @@
 
   &--time-by-date svg {
     transform-origin: bottom;
+  }
+
+  &--tags {
+    min-height: 60px;
+
+    svg:not(.active) {
+      display: none;
+    }
   }
 
   &__tooltip {

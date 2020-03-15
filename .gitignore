@@ -12,3 +12,4 @@ data/service-account.json
 data/music-log*
 source/partials/_bar-chart.html.erb
 source/partials/_time-by-date-chart.html.erb
+source/partials/_tags-chart.html.erb

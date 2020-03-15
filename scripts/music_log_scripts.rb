@@ -58,6 +58,7 @@ def find_totals(entries, ordered_entries_by_date)
       end
     end
 
+    acc.delete('worship')
     acc
   end
 
@@ -72,6 +73,8 @@ def find_totals(entries, ordered_entries_by_date)
     total_time: entries.reduce(0) { |sum, num| sum + num[:duration] },
     total_days: total_days.length
   }
+
+  create_tag_percentages(entries_by_tag)
 
   File.open('data/music-log-totals.json', 'w') { |f| f << totals.to_json }
 end
@@ -156,6 +159,19 @@ def create_rolling_average(time_array)
   rolling_averages << rolling_averages.first
 
   File.open('data/music-log-time-of-day-rolling-average.json', 'w') { |f| f << rolling_averages.to_json }
+end
+
+def create_tag_percentages(entries_by_tag)
+  entries_arr = entries_by_tag.to_a
+  max_width = 400.0 # for 400px
+
+  entries_arr.sort! { |a, b| a[1] <=> b[1] }
+  max_duration = entries_arr.last()[1]
+  entries_arr.each do |entry|
+    entry[1] = (max_width * entry[1] / max_duration).round()
+  end
+
+  File.open('data/music-log-inline-tags.json', 'w') { |f| f << entries_arr.to_json }
 end
 
 sync_music_log
