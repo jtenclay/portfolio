@@ -8,4 +8,4 @@
     * Description with links
     * Tags
     * Arrows for next day and prev day, and if there's no data then put a sad message in there
-* Automatically sync and rebuild on the server
+* Make sure CRON is working
