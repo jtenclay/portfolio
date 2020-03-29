@@ -17,10 +17,25 @@
   }
 
   &__completed-area {
+    align-items: center;
     background-color: $middle-link-color;
+    display: flex;
+    justify-content: center;
     position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
+
+    svg {
+      display: block;
+      height: 14px;
+      width: 14px;
+
+      path {
+        fill: none;
+        stroke: $bg-color;
+        stroke-width: 2px;
+      }
+    }
   }
 }

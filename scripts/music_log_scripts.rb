@@ -3,6 +3,10 @@ require 'dotenv/load'
 require 'google_drive'
 require 'json'
 
+require_relative './music-log/create_tag_percentages'
+require_relative './music-log/create_rolling_average'
+require_relative './music-log/add_top_time_to_totals'
+
 def find_streaks(ordered_entries_by_date)
   prev = ordered_entries_by_date.first
   streaks = ordered_entries_by_date
@@ -35,8 +39,6 @@ def find_time_of_day(entries)
       time_index += 1
     end
   end
-
-  create_rolling_average(time_array)
 
   # Duplicate midnight at the end for continuity
   time_array << time_array.first
@@ -73,8 +75,6 @@ def find_totals(entries, ordered_entries_by_date)
     total_time: entries.reduce(0) { |sum, num| sum + num[:duration] },
     total_days: total_days.length
   }
-
-  create_tag_percentages(entries_by_tag)
 
   File.open('data/music-log-totals.json', 'w') { |f| f << totals.to_json }
 end
@@ -139,39 +139,7 @@ def reduce_music_log_by_date(entries)
   find_streaks(ordered_entries_by_date)
 end
 
-def create_rolling_average(time_array)
-  time_difference = 10
-  rolling_averages = []
-
-  time_array.each_with_index do |day, i|
-    acc = day
-
-    time_difference.times do |d|
-      diff = d + 1
-      acc += time_array[i - diff]
-      acc += (time_array[i + diff] or time_array[i + diff - time_array.length])
-    end
-
-    rolling_averages << (acc / (time_difference * 2.0 + 1)).round(2)
-  end
-
-  # Duplicate midnight at the end for continuity
-  rolling_averages << rolling_averages.first
-
-  File.open('data/music-log-time-of-day-rolling-average.json', 'w') { |f| f << rolling_averages.to_json }
-end
-
-def create_tag_percentages(entries_by_tag)
-  entries_arr = entries_by_tag.to_a
-  max_width = 400.0 # for 400px
-
-  entries_arr.sort! { |a, b| a[1] <=> b[1] }
-  max_duration = entries_arr.last()[1]
-  entries_arr.each do |entry|
-    entry[1] = (max_width * entry[1] / max_duration).round()
-  end
-
-  File.open('data/music-log-inline-tags.json', 'w') { |f| f << entries_arr.to_json }
-end
-
 sync_music_log
+create_tag_percentages
+create_rolling_average
+add_top_time_to_totals

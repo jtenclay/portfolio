@@ -120,8 +120,8 @@ body {
         fill: none;
         stroke: $middle-link-color;
         stroke-width: 2px;
-        stroke-linecap: round;
-        stroke-linejoin: round;
+        stroke-linecap: square;
+        stroke-linejoin: bevel;
       }
     }
 

@@ -60,24 +60,32 @@ title: Music log | Jackson Tenclay
   <div class="totals-vis">
     <div class="totals-vis__graph">
       <div class="totals-vis__graph-outline"></div>
-      <div class="totals-vis__completed-area" style="width: <%= (total_days / 15.0).round(1) %>%;"></div>
+      <div class="totals-vis__completed-area" style="width: <%= (total_days / 15.0).round(1) %>%;">
+        <svg viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <path d="M3,2 L3,5"></path>
+          <path d="M11,2 L11,5"></path>
+          <path d="M5.5 12.5C7.2 12.5 8.5 11.2 8.5 9.5 8.5 7.8 7.2 6.5 5.5 6.5" transform="translate(7, 9.5) rotate(90) translate(-6.5, -9.5)"></path>
+        </svg>
+      </div>
     </div>
   </div>
 
   <h2>Time of day</h2>
   <p>
-    This graph shows what percentage of my practice entries included a particular minute of the day (20-min rolling average).
+    This graph shows what percentage of my practice entries included a particular minute of the day (20-min rolling average). The most common time for me to be practicing is around <%= totals_data.top_time %>.
   </p>
   <%= partial 'partials/_bar-chart' %>
 
-  <h2>???</h2>
+  <h2>Tags</h2>
+  <p>
+    Each practice entry includes a general description and tags. My most-used tag has always tended to be “improv,” which is a catch-all for unstructured noodling.
+  </p>
+  <p>
+    These are all the tags I’ve used, sorted by total time. Since an entry can have more than one tag, they aren’t necessarily exclusive from each other.
+  </p>
   <div class="inline-tags">
     <% inline_tags.reverse.each do |tag| %><span class="inline-tags__tag"><span class="inline-tags__name"><%= tag[0] %></span><span class="inline-tags__vis" style="width: <%= tag[1] %>px;"></span></span><% end %>
   </div>
-
-
-  <h2>????</h2>
-  <%= partial 'partials/_tags-chart' %>
 
   <%# <h2>Fine print</h2>
   <p>
