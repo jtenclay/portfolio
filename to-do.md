@@ -8,4 +8,5 @@
     * Description with links
     * Tags
     * Arrows for next day and prev day, and if there's no data then put a sad message in there
-* Make sure CRON is working
+* Add "Explore" section at the bottom where people can flip through the data
+  and draw their own conclusions
