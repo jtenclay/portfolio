@@ -4,8 +4,10 @@ require 'google_drive'
 require 'json'
 
 require_relative './music-log/create_tag_percentages'
+require_relative './music-log/create_instrument_percentages'
 require_relative './music-log/create_rolling_average'
 require_relative './music-log/add_top_time_to_totals'
+require_relative './music-log/create_data_dump_calendar'
 
 def find_streaks(ordered_entries_by_date)
   prev = ordered_entries_by_date.first
@@ -48,8 +50,6 @@ def find_time_of_day(entries)
 end
 
 def find_totals(entries, ordered_entries_by_date)
-  entries_by_tag = {}
-
   entries_by_tag = entries.reduce({}) do |acc, cur|
     cur[:tags].each do |tag|
 
@@ -64,11 +64,28 @@ def find_totals(entries, ordered_entries_by_date)
     acc
   end
 
+  entries_by_instrument = entries.reduce({}) do |acc, cur|
+    cur[:instrument].each do |instr|
+      unless (cur[:duration])
+        next
+      end
+
+      if (acc[instr])
+        acc[instr] += cur[:duration]
+      else
+        acc[instr] = cur[:duration]
+      end
+    end
+
+    acc
+  end
+
   median_time_per_entry = median(entries.map { |entry| entry[:duration] })
   median_time_per_day = median(ordered_entries_by_date.map { |date| date[:duration] })
   total_days = ordered_entries_by_date.select { |date| date[:duration] > 0 }
 
   totals = {
+    entries_by_instrument: entries_by_instrument,
     entries_by_tag: entries_by_tag,
     median_time_per_day: median_time_per_day,
     median_time_per_entry: median_time_per_entry,
@@ -100,7 +117,7 @@ def sync_music_log
         date: Date.strptime(row[0], '%m/%d/%y'),
         start_time: row[1],
         duration: row[2].to_i,
-        instrument: row[3],
+        instrument: row[3].split(', '),
         description: row[4],
         tags: row[5].split(', ')
       }
@@ -140,6 +157,8 @@ def reduce_music_log_by_date(entries)
 end
 
 sync_music_log
+create_instrument_percentages
 create_tag_percentages
 create_rolling_average
 add_top_time_to_totals
+create_data_dump_calendar

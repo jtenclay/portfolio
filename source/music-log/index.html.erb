@@ -7,6 +7,8 @@ title: Music log | Jackson Tenclay
 <% total_days = data['music-log-totals'][:total_days] %>
 <% total_hours, total_minutes = totals_data['total_time'].divmod(60) %>
 <% inline_tags = data['music-log-inline-tags'] %>
+<% inline_instruments = data['music-log-inline-instruments'] %>
+<% data_dump_calendar = data['music-log-calendar'] %>
 
 <div class="text-block">
   <a class="back-link" href="/">
@@ -86,10 +88,51 @@ title: Music log | Jackson Tenclay
   <div class="inline-tags">
     <% inline_tags.reverse.each do |tag| %><span class="inline-tags__tag"><span class="inline-tags__name"><%= tag[0] %></span><span class="inline-tags__vis" style="width: <%= tag[1] %>px;"></span></span><% end %>
   </div>
+  <!--
+    <p>
+      Here’s the same thing but with which instrument(s) each entry was tagged with.
+    </p>
+    <div class="inline-tags">
+      <% inline_instruments.reverse.each do |tag| %><span class="inline-tags__tag"><span class="inline-tags__name"><%= tag[0] %></span><span class="inline-tags__vis" style="width: <%= tag[1] %>px;"></span></span><% end %>
+    </div>
+  -->
 
   <%# <h2>Fine print</h2>
   <p>
     (rules for myself)
     - maybe call out the statistics hidden in paragraph text with a separate color ?
   </p> %>
+
+  <h2>Data dump</h2>
+  <p>
+    I didn’t find any other interesting information in my music log, but you might! Hover over a date to see that day’s details.
+  </p>
+  <div class="data-dump-calendar">
+    <% data_dump_calendar.sort.each do |year| %>
+      <% year[1].sort.each_with_index do |month, i| %>
+        <div class="data-dump-calendar__month">
+          <div class="data-dump-calendar__month-label">
+            <%= Date.parse('2020-' + month[0] + '-01').strftime('%B') %> <%= i == 0 ? year[0] : '' %>
+          </div>
+          <% month[1].sort.each_with_index do |week, j| %>
+            <div class="data-dump-calendar__week">
+              <% (0..6).each do |day_of_the_week| %>
+                <div class="data-dump-calendar__day <% if week[1][day_of_the_week] %><%= week[1][day_of_the_week][0]['start_time'] != '' ? 'data-dump-calendar__day--with-entry' : 'data-dump-calendar__day--no-entry' %><% else %>data-dump-calendar__day--placeholder<% end %>">
+                </div>
+              <% end %>
+            </div>
+            <% if j == month[1].sort.size - 1 and j < 6 %>
+              <!-- Include a spacer week for short months -->
+              <div class="data-dump-calendar__week">
+                <% (0..6).each do |day_of_the_week| %>
+                  <div class="data-dump-calendar__day data-dump-calendar__day--placeholder">
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
 </div>

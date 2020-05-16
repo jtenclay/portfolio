@@ -5,7 +5,7 @@
   font-weight: 500;
   letter-spacing: 0.5px;
   line-height: 1;
-  margin-left: $spacer;
+  margin: 0 0 $spacer * -1 $spacer;
   padding-left: $spacer;
   width: 100%; // prevent margin from cutting off the right rag
 

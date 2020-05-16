@@ -1,5 +1,6 @@
 @import "totals-vis";
 @import "inline-tags";
+@import "data-dump-calendar";
 
 .d3-vis {
   color: $middle-link-color;
@@ -185,7 +186,7 @@
         display: inline-block;
         flex-shrink: 0;
         height: 14px;
-        margin-right: $spacer / 4;
+        margin-right: 8px;
         width: 14px;
 
         svg {
