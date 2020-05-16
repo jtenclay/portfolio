@@ -157,6 +157,7 @@
   &__actions {
     color: $middle-link-color;
     display: flex;
+    flex-wrap: wrap;
     font-size: 14px;
     font-weight: 500;
     letter-spacing: 0.5px;
@@ -175,7 +176,7 @@
       }
     }
 
-    input {
+    input[type="checkbox"] {
       opacity: 0;
       pointer-events: none;
       position: absolute;

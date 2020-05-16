@@ -22,5 +22,3 @@ def create_data_dump_calendar()
 
   File.open('data/music-log-calendar.json', 'w') { |f| f << calendar.to_json }
 end
-
-create_data_dump_calendar

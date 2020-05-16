@@ -107,6 +107,39 @@ title: Music log | Jackson Tenclay
   <p>
     I didn’t find any other interesting information in my music log, but you might! Hover over a date to see that day’s details.
   </p>
+  <div class="d3-vis__actions">
+    <label>
+      Filter by text:
+      <input type="text" id="calendar-text-filter">
+    </label>
+    <label>
+      Instrument:
+      <select id="calendar-instrument">
+          <option value="all" selected>All</option>
+        <% inline_instruments.reverse.each do |instrument| %>
+          <option value="<%= instrument[0] %>"><%= instrument[0] %></option>
+        <% end %>
+      </select>
+    </label>
+    <label>
+      Tags:
+      <select id="calendar-tag">
+          <option value="all" selected>All</option>
+        <% inline_tags.reverse.each do |tag| %>
+          <option value="<%= tag[0] %>"><%= tag[0] %></option>
+        <% end %>
+      </select>
+    </label>
+    <input type="checkbox" class="d3-vis__guide-checkbox" id="hide-improv-entries">
+    <label for="hide-improv-entries">
+      <div class="d3-vis__checkbox-image">
+        <svg viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <polyline points="4 9 6 11 10 3"></polyline>
+        </svg>
+      </div>
+      Ignore entries that only say “improv” :)
+    </label>
+  </div>
   <div class="data-dump-calendar">
     <% data_dump_calendar.sort.each do |year| %>
       <% year[1].sort.each_with_index do |month, i| %>
@@ -114,14 +147,73 @@ title: Music log | Jackson Tenclay
           <div class="data-dump-calendar__month-label">
             <%= Date.parse('2020-' + month[0] + '-01').strftime('%B') %> <%= i == 0 ? year[0] : '' %>
           </div>
-          <% month[1].sort.each_with_index do |week, j| %>
+          <% if year[0] == '2019' and i == 0 %>
+            <!-- Include spacer weeks for the first month -->
             <div class="data-dump-calendar__week">
               <% (0..6).each do |day_of_the_week| %>
-                <div class="data-dump-calendar__day <% if week[1][day_of_the_week] %><%= week[1][day_of_the_week][0]['start_time'] != '' ? 'data-dump-calendar__day--with-entry' : 'data-dump-calendar__day--no-entry' %><% else %>data-dump-calendar__day--placeholder<% end %>">
+                <div class="data-dump-calendar__day data-dump-calendar__day--placeholder">
                 </div>
               <% end %>
             </div>
-            <% if j == month[1].sort.size - 1 and j < 6 %>
+            <div class="data-dump-calendar__week">
+              <% (0..6).each do |day_of_the_week| %>
+                <div class="data-dump-calendar__day data-dump-calendar__day--placeholder">
+                </div>
+              <% end %>
+            </div>
+            <div class="data-dump-calendar__week">
+              <% (0..6).each do |day_of_the_week| %>
+                <div class="data-dump-calendar__day data-dump-calendar__day--placeholder">
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+          <% month[1].sort.each_with_index do |week, j| %>
+            <div class="data-dump-calendar__week">
+              <% (0..6).each do |day_of_the_week| %>
+                <div
+                  class="data-dump-calendar__day active <% if week[1][day_of_the_week] %><%= week[1][day_of_the_week][0]['start_time'] != '' ? 'data-dump-calendar__day--with-entry' : 'data-dump-calendar__day--no-entry' %><% else %>data-dump-calendar__day--placeholder<% end %>"
+                  <% if week[1][day_of_the_week] %>
+                    data-day-ids="<%= week[1][day_of_the_week].map { |entry| entry['id'] }.join(',') %>"
+                  <% end %>
+                >
+                  <% if week[1][day_of_the_week] %>
+                    <div class="data-dump-calendar__details-pane">
+                      <% if week[1][day_of_the_week][0]['start_time'] == '' %>
+                        I didn’t practice this day&hellip;
+                      <% else %>
+                        <% week[1][day_of_the_week].each_with_index do |entry, i| %>
+                          <% start_time = Time.parse('2000/1/1 ' + entry.start_time) %>
+                          <% end_time = start_time + entry.duration * 60 %>
+
+                          <% if i > 0 %>
+                            <hr class="data-dump-calendar__details-separator">
+                          <% end %>
+
+                          <div class="data-dump-calendar__details-heading">
+                            <% if i == 0 %>
+                              <span>
+                                <%= Date.parse(entry.date).strftime('%B %-d, %Y') %>
+                              </span>
+                              <br>
+                            <% end %>
+                            <%= start_time.strftime('%l:%M%P').strip %>–<%= end_time.strftime('%l:%M%P').strip %>
+                            (<%= entry.duration %> min)
+                          </div>
+                          <div class="data-dump-calendar__description">
+                            <%= entry.description %>
+                          </div>
+                          instrument: <%= entry.instrument.join(', ') %>
+                          <br>
+                          tagged: <%= (entry.tags - ['worship']).join(', ') %>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+            <% if j == month[1].sort.size - 1 and j < 5 and not (year[0] == '2019' and i == 0) %>
               <!-- Include a spacer week for short months -->
               <div class="data-dump-calendar__week">
                 <% (0..6).each do |day_of_the_week| %>

@@ -40,18 +40,6 @@ module.exports = env => ({
         ]
       },
       {
-        type: 'javascript/auto',
-        test: /\.(json)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]'
-            }
-          }
-        ]
-      },
-      {
         test: /\.scss$/,
         use: [
           MiniCssExtractPlugin.loader,

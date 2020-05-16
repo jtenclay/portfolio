@@ -1,3 +1,5 @@
+import initCalendar from './calendar';
+
 if (window.location.href.indexOf('music-log') !== -1) {
   const visualizations = document.querySelectorAll('.d3-vis__wrapper');
 
@@ -29,4 +31,6 @@ if (window.location.href.indexOf('music-log') !== -1) {
       });
     }
   });
+
+  initCalendar();
 }

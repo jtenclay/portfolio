@@ -111,7 +111,7 @@ def sync_music_log
 
   entries = Array.new
 
-  rows[1..-1].each do |row|
+  rows[1..-1].each_with_index do |row, i|
     unless row[2].empty?
       entries << {
         date: Date.strptime(row[0], '%m/%d/%y'),
@@ -119,7 +119,8 @@ def sync_music_log
         duration: row[2].to_i,
         instrument: row[3].split(', '),
         description: row[4],
-        tags: row[5].split(', ')
+        tags: row[5].split(', '),
+        id: i.to_s
       }
     end
   end
