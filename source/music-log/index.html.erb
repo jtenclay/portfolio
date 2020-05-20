@@ -22,14 +22,14 @@ title: Music log | Jackson Tenclay
   </a>
 
   <p>
-    I’ve played piano since I was a kid and majored in Music Performance in college. Afterwards, though, the lack of formal structure meant that it gradually left my life until I ended up giving my piano away a couple years after graduation.
+    I’ve played piano since I was a kid and majored in Music Performance in college. Afterwards, though, the lack of formal structure meant that it gradually left my life until I ended up giving my piano away a couple years after&nbsp;graduation.
   </p>
   <p>
-    On June 12, 2019, after about five years without a piano, I finally missed it enough to cave in and get myself a new one. Worried that I might come to neglect it again, on June 20 I resolved to play some sort of music each day, with the hope that the time would add up to something meaningful. Here’s some real-time data about how it’s been going.
+    On June 12, 2019, after about five years without a piano, I finally missed it enough to cave in and get myself a new one. Worried that I might come to neglect it again, on June 20 I resolved to play some sort of music each day, with the hope that the time would add up to something meaningful. Here’s some real-time data about how it’s been&nbsp;going.
   </p>
   <h2>Minutes per day</h2>
   <p>
-    This graph shows how the amount of time I’ve spent making music has changed over time. The initial intent was to keep it above 15 minutes per day; my current median time is <%= totals_data['median_time_per_day'] %> minutes.
+    This graph shows how the amount of time I’ve spent making music has changed over time. The initial intent was to keep it above 15 minutes per day; my current median time is <%= totals_data['median_time_per_day'] %>&nbsp;minutes.
   </p>
   <%= partial 'partials/_time-by-date-chart' %>
 <!--   <ul>
@@ -50,14 +50,14 @@ title: Music log | Jackson Tenclay
 
   <h2>Totals and streaks</h2>
   <p>
-    So far, I’ve spent <%= total_hours %> hours, <%= total_minutes %> minutes in intentional music practice. I don’t count “incidental music” like singing along to songs, going to concerts, or inactive listening.
+    So far, I’ve spent <%= total_hours %> hours, <%= total_minutes %> minutes in intentional music practice. I don’t count “incidental music” like singing along to songs, going to concerts, or inactive&nbsp;listening.
   </p>
 
   <p>
-    My current streak is <%= streaks_data['streaks'].last.length %> days; my longest streak was <%= streaks_data['longest_streak'].length %> days (<%= Date.parse(streaks_data['longest_streak'].first['date']).strftime('%B %-d, %Y') %> to <%= Date.parse(streaks_data['longest_streak'].last['date']).strftime('%B %-d, %Y') %>).
+    My current streak is <%= streaks_data['streaks'].last.length %> days; my longest streak was <%= streaks_data['longest_streak'].length %> days (<%= Date.parse(streaks_data['longest_streak'].first['date']).strftime('%B %-d, %Y') %> to&nbsp;<%= Date.parse(streaks_data['longest_streak'].last['date']).strftime('%B %-d, %Y') %>).
   </p>
   <p>
-    The intention is to make it to 1500 days in total (about 4 years), so I’m <%= (total_days / 15.0).round(1) %>% of the way there.
+    The intention is to make it to 1500 days in total (about 4 years), so I’m <%= (total_days / 15.0).round(1) %>% of the way&nbsp;there.
   </p>
   <div class="totals-vis">
     <div class="totals-vis__graph">
@@ -74,16 +74,16 @@ title: Music log | Jackson Tenclay
 
   <h2>Time of day</h2>
   <p>
-    This graph shows what percentage of my practice entries included a particular minute of the day (20-min rolling average). The most common time for me to be practicing is around <%= totals_data.top_time %>.
+    This graph shows what percentage of my practice entries included a particular minute of the day (20-min rolling average). The most common time for me to be practicing is around&nbsp;<%= totals_data.top_time %>.
   </p>
   <%= partial 'partials/_bar-chart' %>
 
   <h2>Tags</h2>
   <p>
-    Each practice entry includes a general description and tags. My most-used tag has always tended to be “improv,” which is a catch-all for unstructured noodling.
+    Each practice entry includes a general description and tags. My most-used tag has always tended to be “improv,” which is a catch-all for unstructured&nbsp;noodling.
   </p>
   <p>
-    These are all the tags I’ve used, sorted by total time. Since an entry can have more than one tag, they aren’t necessarily exclusive from each other.
+    These are all the tags I’ve used, sorted by total time. Since an entry can have more than one tag, they aren’t necessarily exclusive from each&nbsp;other.
   </p>
   <div class="inline-tags">
     <% inline_tags.reverse.each do |tag| %><span class="inline-tags__tag"><span class="inline-tags__name"><%= tag[0] %></span><span class="inline-tags__vis" style="width: <%= tag[1] %>px;"></span></span><% end %>
@@ -105,7 +105,7 @@ title: Music log | Jackson Tenclay
 
   <h2>Data dump</h2>
   <p>
-    I didn’t find any other interesting information in my music log, but you might! Hover over a date to see that day’s details.
+    I haven’t found any other interesting information in my music log so far, but you might! Hover over a date to see that day’s details, or use one of the filters&nbsp;below.
   </p>
   <div class="d3-vis__actions">
     <label>
@@ -120,6 +120,10 @@ title: Music log | Jackson Tenclay
           <option value="<%= instrument[0] %>"><%= instrument[0] %></option>
         <% end %>
       </select>
+      <svg viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false">
+        <polyline points="4 4 7 2 10 4"></polyline>
+        <polyline points="4,10 7,12 10,10"></polyline>
+      </svg>
     </label>
     <label>
       Tags:
@@ -129,6 +133,10 @@ title: Music log | Jackson Tenclay
           <option value="<%= tag[0] %>"><%= tag[0] %></option>
         <% end %>
       </select>
+      <svg viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false">
+        <polyline points="4 4 7 2 10 4"></polyline>
+        <polyline points="4,10 7,12 10,10"></polyline>
+      </svg>
     </label>
     <input type="checkbox" class="d3-vis__guide-checkbox" id="hide-improv-entries">
     <label for="hide-improv-entries">
@@ -175,6 +183,7 @@ title: Music log | Jackson Tenclay
                   class="data-dump-calendar__day active <% if week[1][day_of_the_week] %><%= week[1][day_of_the_week][0]['start_time'] != '' ? 'data-dump-calendar__day--with-entry' : 'data-dump-calendar__day--no-entry' %><% else %>data-dump-calendar__day--placeholder<% end %>"
                   <% if week[1][day_of_the_week] %>
                     data-day-ids="<%= week[1][day_of_the_week].map { |entry| entry['id'] }.join(',') %>"
+                    tabindex="0"
                   <% end %>
                 >
                   <% if week[1][day_of_the_week] %>

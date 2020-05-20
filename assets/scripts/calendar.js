@@ -5,7 +5,7 @@ export default function initCalendar() {
     hideImprov: document.querySelector('#hide-improv-entries').checked,
     instrument: document.querySelector('#calendar-instrument').value,
     tag: document.querySelector('#calendar-tag').value,
-    text: document.querySelector('#calendar-text-filter').value,
+    text: document.querySelector('#calendar-text-filter').value.toLowerCase(),
   };
 
   const allDays = [...document.querySelectorAll('.data-dump-calendar__day')];
@@ -15,7 +15,7 @@ export default function initCalendar() {
       (filters.instrument === 'all' || entry.instrument.includes(filters.instrument))
       && (filters.tag === 'all' || entry.tags.includes(filters.tag))
       && (!filters.hideImprov || entry.description !== 'Improv')
-      && (!filters.text || entry.description.indexOf(filters.text) > -1)
+      && (!filters.text || entry.description.toLowerCase().indexOf(filters.text) > -1)
     ));
 
     allDays.forEach(day => day.classList.remove('active'));
@@ -35,7 +35,7 @@ export default function initCalendar() {
   });
 
   document.querySelector('#calendar-text-filter').addEventListener('input', (e) => {
-    filters.text = e.currentTarget.value;
+    filters.text = e.currentTarget.value.toLowerCase();
     updateFilteredEntries();
   });
 
@@ -55,4 +55,27 @@ export default function initCalendar() {
   });
 
   updateFilteredEntries();
+
+  const avoidClippedPane = (el) => {
+    const $pane = el.querySelector('.data-dump-calendar__details-pane');
+    $pane.style.transform = 'translateX(-50%)';
+
+    const paneDimensions = $pane.getBoundingClientRect();
+    const leftClip = paneDimensions.left;
+    const rightClip = document.documentElement.clientWidth - (paneDimensions.left + paneDimensions.width);
+
+    if (leftClip < 15) {
+      // Prevent clipping off the left side of the screen
+      $pane.style.transform = `translateX(calc(-50% + ${15 - leftClip}px))`;
+    } else if (rightClip < 15) {
+      // Prevent clipping off the left side of the screen
+      $pane.style.transform = `translateX(calc(-50% - ${15 - rightClip}px))`;
+    }
+  };
+
+  // Handle the details pane overflowing the viewport
+  [...document.querySelectorAll('.data-dump-calendar__day:not(.data-dump-calendar__day--placeholder)')].forEach((el) => {
+    el.addEventListener('mouseenter', () => avoidClippedPane(el));
+    el.addEventListener('focus', () => avoidClippedPane(el));
+  });
 }

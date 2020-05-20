@@ -161,17 +161,61 @@
     font-size: 14px;
     font-weight: 500;
     letter-spacing: 0.5px;
+    margin-bottom: $spacer * -1;
     padding-left: $spacer * 2 - 1px;
+
+    > * {
+      margin-bottom: $spacer;
+    }
 
     label {
       align-items: center;
       display: flex;
       line-height: 1;
       margin-right: $spacer;
+      position: relative;
 
       &:active {
         .d3-vis__checkbox-image {
           background-color: $link-color !important;
+        }
+      }
+    }
+
+    input[type="text"], select {
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      border: 2px solid $middle-link-color;
+      border-radius: 4px;
+      box-sizing: content-box;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: normal;
+      height: 18px;
+      letter-spacing: 0.25px;
+      line-height: 18px;
+      margin: -4px 0 -4px 8px;
+      padding: 2px 4px;
+    }
+
+    select {
+      padding-right: 17px; // clear svg
+
+      + svg {
+        height: 14px;
+        pointer-events: none;
+        position: absolute;
+        right: 4px;
+        width: 14px;
+
+        polyline {
+          fill: none;
+          stroke: $middle-link-color;
+          stroke-width: 2px;
+          stroke-linecap: square;
+          stroke-linejoin: bevel;
         }
       }
     }

@@ -42,7 +42,7 @@
       pointer-events: none;
     }
 
-    &:hover {
+    &:hover, &:focus {
       background-color: $dark-link-color;
     }
   }
@@ -64,7 +64,8 @@
     width: 250px;
     z-index: 5;
 
-    .data-dump-calendar__day:hover & {
+    .data-dump-calendar__day:hover &,
+    .data-dump-calendar__day:focus & {
       display: block;
     }
   }
