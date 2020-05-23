@@ -12,7 +12,7 @@ title: Music log | Jackson Tenclay
 
 <div class="text-block">
   <a class="back-link" href="/">
-    <svg viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <svg viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" focusable="false" aria-hidden="true">
       <path d="M1,7 L13,7 Z"></path>
       <polyline points="5 11 1 7 5 3"></polyline>
     </svg>
@@ -63,10 +63,9 @@ title: Music log | Jackson Tenclay
     <div class="totals-vis__graph">
       <div class="totals-vis__graph-outline"></div>
       <div class="totals-vis__completed-area" style="width: <%= (total_days / 15.0).round(1) %>%;">
-        <svg viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-          <path d="M3,2 L3,5"></path>
-          <path d="M11,2 L11,5"></path>
-          <path d="M5.5 12.5C7.2 12.5 8.5 11.2 8.5 9.5 8.5 7.8 7.2 6.5 5.5 6.5" transform="translate(7, 9.5) rotate(90) translate(-6.5, -9.5)"></path>
+        <svg viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" aria-labelledby="totals-vis__completed-area-desc">
+          <desc id="totals-vis__completed-area-desc">Smiley face inside an area showing <%= (total_days / 15.0).round(1) %>% completion</desc>
+          <path d="M3 2v3M11 2v3M4 8.5c0 1.7 1.3 3 3 3s3-1.3 3-3"/>
         </svg>
       </div>
     </div>
@@ -86,7 +85,7 @@ title: Music log | Jackson Tenclay
     These are all the tags I’ve used, sorted by total time. Since an entry can have more than one tag, they aren’t necessarily exclusive from each&nbsp;other.
   </p>
   <div class="inline-tags">
-    <% inline_tags.reverse.each do |tag| %><span class="inline-tags__tag"><span class="inline-tags__name"><%= tag[0] %></span><span class="inline-tags__vis" style="width: <%= tag[1] %>px;"></span></span><% end %>
+    <% inline_tags.reverse.each do |tag| %><span class="inline-tags__tag"><span class="inline-tags__name"><%= tag[0] %><span class="screenreader-only">, <%= tag[2] %>%</span></span><span class="inline-tags__vis" style="width: <%= tag[1] %>px;"></span></span><% end %>
   </div>
   <!--
     <p>
@@ -152,9 +151,14 @@ title: Music log | Jackson Tenclay
     <% data_dump_calendar.sort.each do |year| %>
       <% year[1].sort.each_with_index do |month, i| %>
         <div class="data-dump-calendar__month">
-          <div class="data-dump-calendar__month-label">
-            <%= Date.parse('2020-' + month[0] + '-01').strftime('%B') %> <%= i == 0 ? year[0] : '' %>
-          </div>
+          <h3 class="data-dump-calendar__month-label">
+            <%= Date.parse('2020-' + month[0] + '-01').strftime('%B') %>
+            <% if i == 0 %>
+              <%= year[0] %>
+            <% else %>
+              <span class="screenreader-only"><%= year[0] %></span>
+            <% end %>
+          </h3>
           <% if year[0] == '2019' and i == 0 %>
             <!-- Include spacer weeks for the first month -->
             <div class="data-dump-calendar__week">
@@ -187,6 +191,9 @@ title: Music log | Jackson Tenclay
                   <% end %>
                 >
                   <% if week[1][day_of_the_week] %>
+                    <span class="screenreader-only">
+                      <%= Date.parse(week[1][day_of_the_week][0].date).strftime('%B %-d, %Y') %>
+                    </span>
                     <div class="data-dump-calendar__details-pane">
                       <% if week[1][day_of_the_week][0]['start_time'] == '' %>
                         I didn’t practice this day&hellip;
@@ -201,7 +208,7 @@ title: Music log | Jackson Tenclay
 
                           <div class="data-dump-calendar__details-heading">
                             <% if i == 0 %>
-                              <span>
+                              <span aria-hidden="true">
                                 <%= Date.parse(entry.date).strftime('%B %-d, %Y') %>
                               </span>
                               <br>

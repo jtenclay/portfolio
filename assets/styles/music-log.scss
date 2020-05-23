@@ -53,6 +53,7 @@
 
       path {
         fill: $middle-link-color;
+        transition: transform 0.4s ease-in-out;
       }
     }
   }
@@ -113,7 +114,8 @@
     }
   }
 
-  &--time-by-date svg {
+  &--time-by-date svg path {
+    transform: scaleY(1);
     transform-origin: bottom;
   }
 

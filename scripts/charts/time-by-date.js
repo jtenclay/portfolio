@@ -15,8 +15,14 @@ const height = 900;
 
 const containerSVG = d3n.createSVG(width, height)
   .attr('viewBox', `0 0 ${width}, ${height}`)
+  .attr('aria-labelledby', 'time-by-date-desc')
   .style('width', '100%')
-  .style('height', 'auto');
+  .style('height', 'auto')
+  .attr('role', 'img');
+
+containerSVG.append('desc')
+  .text('Bar chart with time duration on the y-axis and date on the x-axis')
+  .attr('id', 'time-by-date-desc');
 
 // Format data
 const data = timeByDateData.map(datum => (
@@ -133,7 +139,7 @@ const scaleAmount = D3Node.d3.scaleLinear()
 
 const finalOutput = output + `
   <style type="text/css">
-    .d3-vis--cropped-graph .d3-vis__chart svg {
+    .d3-vis--cropped-graph .d3-vis__chart svg path {
       transform: scaleY(${scaleAmount});
     }
   </style>

@@ -16,8 +16,14 @@ const height = 900;
 
 const containerSVG = d3n.createSVG(width, height)
   .attr('viewBox', `0 0 ${width}, ${height}`)
+  .attr('aria-labelledby', 'time-of-day-desc')
   .style('width', '100%')
-  .style('height', 'auto');
+  .style('height', 'auto')
+  .attr('role', 'img');
+
+containerSVG.append('desc')
+  .text('Bar chart with percentage on the y-axis and time of day on the x-axis')
+  .attr('id', 'time-of-day-desc');
 
 // Format data
 const data = timeOfDayData.map((count, i) => (
