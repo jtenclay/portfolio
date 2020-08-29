@@ -8,10 +8,8 @@
   }
 
   &__month-label {
+    @include small-bold();
     color: $middle-link-color;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
     line-height: 18px;
     margin-bottom: 8px;
   }
@@ -87,5 +85,18 @@
     border: none;
     border-bottom: 1px solid $text-color;
     margin: $spacer / 2 0;
+  }
+
+  @media only screen and (max-width: 475px) {
+    margin: $mobile-spacer * 2 -24px $mobile-spacer * -1 0;
+
+    &__month {
+      margin-right: 24px; // simulate another column between each month
+    }
+
+    &__day {
+      height: 16px;
+      width: 16px;
+    }
   }
 }

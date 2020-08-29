@@ -7,6 +7,7 @@ $middle-link-color: #5BA679;
 $dark-link-color: #2D804E;
 
 $spacer: 30px;
+$mobile-spacer: 24px;
 
 @mixin false-focus() {
   outline-width: 2px;
@@ -17,6 +18,17 @@ $spacer: 30px;
   @media (-webkit-min-device-pixel-ratio: 0) {
     outline-color: -webkit-focus-ring-color;
     outline-style: auto;
+  }
+}
+
+@mixin small-bold() {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+
+  @media only screen and (max-width: 475px) {
+    font-size: 12px;
+    letter-spacing: 0.4px;
   }
 }
 
@@ -57,15 +69,21 @@ body {
   font-size: 20px;
   color: $text-color;
   line-height: 30px;
+
+  @media only screen and (max-width: 475px) {
+    font-size: 16px;
+    line-height: $mobile-spacer;
+  }
 }
 
 .text-block {
   margin: 0 auto;
-  padding: 30vh $spacer * 2;
+  padding: $spacer * 9 $spacer * 2;
   max-width: 1000px;
   box-sizing: border-box;
   position: relative;
   z-index: 20;
+
   h2 {
     padding-right: 30%;
     font-size: 14px;
@@ -85,24 +103,24 @@ body {
     text-decoration: none;
     box-shadow: 0 2px 0 0px $link-color;
     padding-bottom: 1px;
+
     &:hover {
       box-shadow: 0 2px 0 0px $text-color;
     }
+
     .using-mouse &:focus {
       outline: none;
     }
   }
 
   .back-link {
+    @include small-bold();
     align-items: center;
     display: flex;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
     line-height: 1;
     padding-bottom: 3px;
     position: absolute;
-    top: 15vh;
+    top: $spacer * 4.5;
     transform: translateY(-50%);
     box-shadow: 0 2px 0 0px $middle-link-color;
 
@@ -150,8 +168,23 @@ body {
     }
   }
 
-  @media only screen and (max-width: 450px) {
-    padding: 30vh $spacer;
+  @media only screen and (max-width: 475px) {
+    padding: $mobile-spacer * 9 $mobile-spacer;
+
+    h2 {
+      font-size: 12px;
+      letter-spacing: 1.35px;
+      margin: $mobile-spacer * 3 0 $mobile-spacer;
+    }
+
+    p {
+      margin-bottom: $mobile-spacer;
+    }
+
+    .back-link {
+      padding-bottom: 2px;
+      top: $mobile-spacer * 4.5;
+    }
   }
 }
 
@@ -162,9 +195,11 @@ body {
   opacity: 1;
   transition: all 0.3s;
   transition-timing-function: ease-in-out;
+
   &.hide {
     opacity: 0;
   }
+
   &__wrapper {
     padding: 0 $spacer * 2;
     box-sizing: border-box;

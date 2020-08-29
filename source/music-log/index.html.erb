@@ -85,7 +85,7 @@ title: Music log | Jackson Tenclay
     These are all the tags I’ve used, sorted by total time. Since an entry can have more than one tag, they aren’t necessarily exclusive from each&nbsp;other.
   </p>
   <div class="inline-tags">
-    <% inline_tags.reverse.each do |tag| %><span class="inline-tags__tag"><span class="inline-tags__name"><%= tag[0] %><span class="screenreader-only">, <%= tag[2] %>%</span></span><span class="inline-tags__vis" style="width: <%= tag[1] %>px;"></span></span><% end %>
+    <% inline_tags.reverse.each do |tag| %><span class="inline-tags__tag"><span class="inline-tags__name"><%= tag[0] %><span class="screenreader-only">, <%= tag[2] %>%</span></span><span class="inline-tags__vis inline-tags__vis--desktop" style="width: <%= tag[1] %>px;"></span><span class="inline-tags__vis inline-tags__vis--mobile" style="width: <%= tag[3] %>px;"></span></span><% end %>
   </div>
   <!--
     <p>

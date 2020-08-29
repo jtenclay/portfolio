@@ -3,10 +3,8 @@
 @import "data-dump-calendar";
 
 .d3-vis {
+  @include small-bold();
   color: $middle-link-color;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.5px;
   padding: 0 0 $spacer * 2 $spacer * 2;
   position: relative;
 
@@ -157,12 +155,10 @@
   }
 
   &__actions {
+    @include small-bold();
     color: $middle-link-color;
     display: flex;
     flex-wrap: wrap;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
     margin-bottom: $spacer * -1;
     padding-left: $spacer * 2 - 1px;
 
@@ -173,7 +169,7 @@
     label {
       align-items: center;
       display: flex;
-      line-height: 1;
+      line-height: 18px;
       margin-right: $spacer;
       position: relative;
 
@@ -264,6 +260,27 @@
   body:not(.using-mouse) & {
     &__actions input:focus + label {
       @include false-focus();
+    }
+  }
+
+  @media only screen and (max-width: 475px) {
+    margin-left: -15px;
+
+    &__actions {
+      padding-left: 0;
+      margin-bottom: $mobile-spacer * -1;
+
+      > * {
+        margin-bottom: $mobile-spacer;
+      }
+
+      label {
+        margin-right: $mobile-spacer;
+      }
+
+      input[type="text"], select {
+        font-size: 12px;
+      }
     }
   }
 }

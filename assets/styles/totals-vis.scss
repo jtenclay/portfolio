@@ -2,7 +2,7 @@
   padding-left: $spacer * 2;
 
   &__graph {
-    height: 60px;
+    height: $spacer * 2;
     position: relative;
   }
 
@@ -36,6 +36,14 @@
         stroke: $bg-color;
         stroke-width: 2px;
       }
+    }
+  }
+
+  @media only screen and (max-width: 475px) {
+    padding-left: 0;
+
+    &__graph {
+      height: $mobile-spacer * 2;
     }
   }
 }
