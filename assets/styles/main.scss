@@ -26,7 +26,7 @@ $mobile-spacer: 24px;
   font-weight: 500;
   letter-spacing: 0.5px;
 
-  @media only screen and (max-width: 475px) {
+  @media only screen and (max-width: 620px) {
     font-size: 12px;
     letter-spacing: 0.4px;
   }
@@ -70,7 +70,7 @@ body {
   color: $text-color;
   line-height: 30px;
 
-  @media only screen and (max-width: 475px) {
+  @media only screen and (max-width: 620px) {
     font-size: 16px;
     line-height: $mobile-spacer;
   }
@@ -168,7 +168,7 @@ body {
     }
   }
 
-  @media only screen and (max-width: 475px) {
+  @media only screen and (max-width: 620px) {
     padding: $mobile-spacer * 9 $mobile-spacer;
 
     h2 {

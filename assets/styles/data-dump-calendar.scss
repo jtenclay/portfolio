@@ -87,16 +87,27 @@
     margin: $spacer / 2 0;
   }
 
-  @media only screen and (max-width: 475px) {
+  @media only screen and (max-width: 620px) {
     margin: $mobile-spacer * 2 -24px $mobile-spacer * -1 0;
 
     &__month {
-      margin-right: 24px; // simulate another column between each month
+      margin-right: 21px; // simulate another column between each month
     }
 
     &__day {
-      height: 16px;
-      width: 16px;
+      height: 13px;
+      width: 13px;
+    }
+  }
+
+  @media only screen and (max-width: 360px) {
+    &__month {
+      margin-right: 26px; // simulate another column between each month
+    }
+
+    &__day {
+      height: 18px;
+      width: 18px;
     }
   }
 }
