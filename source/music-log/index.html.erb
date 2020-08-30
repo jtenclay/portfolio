@@ -183,18 +183,24 @@ title: Music log | Jackson Tenclay
           <% month[1].sort.each_with_index do |week, j| %>
             <div class="data-dump-calendar__week">
               <% (0..6).each do |day_of_the_week| %>
-                <div
-                  class="data-dump-calendar__day active <% if week[1][day_of_the_week] %><%= week[1][day_of_the_week][0]['start_time'] != '' ? 'data-dump-calendar__day--with-entry' : 'data-dump-calendar__day--no-entry' %><% else %>data-dump-calendar__day--placeholder<% end %>"
+                <% day_id = 'day--' + year[0] + '-' + month[0] + '-' + j.to_s + '-' + day_of_the_week.to_s %>
+                <div class="data-dump-calendar__day-wrapper">
+                  <div
+                    class="data-dump-calendar__day active <% if week[1][day_of_the_week] %><%= week[1][day_of_the_week][0]['start_time'] != '' ? 'data-dump-calendar__day--with-entry' : 'data-dump-calendar__day--no-entry' %><% else %>data-dump-calendar__day--placeholder<% end %>"
+                    <% if week[1][day_of_the_week] %>
+                      data-day-ids="<%= week[1][day_of_the_week].map { |entry| entry['id'] }.join(',') %>"
+                      tabindex="0"
+                      aria-describedby="<%= day_id %>"
+                    <% end %>
+                  >
+                    <% if week[1][day_of_the_week] %>
+                      <span class="screenreader-only">
+                        <%= Date.parse(week[1][day_of_the_week][0].date).strftime('%B %-d, %Y') %>
+                      </span>
+                    <% end %>
+                  </div>
                   <% if week[1][day_of_the_week] %>
-                    data-day-ids="<%= week[1][day_of_the_week].map { |entry| entry['id'] }.join(',') %>"
-                    tabindex="0"
-                  <% end %>
-                >
-                  <% if week[1][day_of_the_week] %>
-                    <span class="screenreader-only">
-                      <%= Date.parse(week[1][day_of_the_week][0].date).strftime('%B %-d, %Y') %>
-                    </span>
-                    <div class="data-dump-calendar__details-pane">
+                    <div class="data-dump-calendar__details-pane" id="<%= day_id %>">
                       <% if week[1][day_of_the_week][0]['start_time'] == '' %>
                         I didn’t practice this day&hellip;
                       <% else %>

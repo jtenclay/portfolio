@@ -18,10 +18,13 @@
     display: flex;
   }
 
+  &__day-wrapper {
+    position: relative;
+  }
+
   &__day {
     height: 18px;
     margin: 0 8px 8px 0;
-    position: relative;
     width: 18px;
 
     &--with-entry {
@@ -62,8 +65,8 @@
     width: 250px;
     z-index: 5;
 
-    .data-dump-calendar__day:hover &,
-    .data-dump-calendar__day:focus & {
+    .data-dump-calendar__day:hover + &,
+    .data-dump-calendar__day:focus + & {
       display: block;
     }
   }

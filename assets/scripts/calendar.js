@@ -57,7 +57,7 @@ export default function initCalendar() {
   updateFilteredEntries();
 
   const avoidClippedPane = (el) => {
-    const $pane = el.querySelector('.data-dump-calendar__details-pane');
+    const $pane = el.parentNode.querySelector('.data-dump-calendar__details-pane');
     $pane.style.transform = 'translateX(-50%)';
 
     const paneDimensions = $pane.getBoundingClientRect();
