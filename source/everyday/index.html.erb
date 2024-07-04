@@ -1,0 +1,250 @@
+---
+title: Everyday | Jackson Tenclay
+---
+
+<% streaks_data = data['music-log-streaks'] %>
+<% totals_data = data['music-log-totals'] %>
+<% total_days = data['music-log-totals'][:total_days] %>
+<% total_hours, total_minutes = totals_data['total_time'].divmod(60) %>
+<% inline_tags = data['music-log-inline-tags'] %>
+<% inline_instruments = data['music-log-inline-instruments'] %>
+<% data_dump_calendar = data['music-log-calendar'] %>
+
+<div class="text-block">
+  <a class="back-link" href="/">
+    <svg viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" focusable="false" aria-hidden="true">
+      <path d="M1,7 L13,7 Z"></path>
+      <polyline points="5 11 1 7 5 3"></polyline>
+    </svg>
+    <div>
+      Back home
+    </div>
+  </a>
+
+  <p>
+    This is a graph of how I’ve been active each day&nbsp;lately.
+  </p>
+  <h2>Minutes per day</h2>
+  <p>
+    This graph shows how the amount of time I’ve spent making music has changed over time. The initial intent was to keep it above 15 minutes per day; my current median time is <%= totals_data['median_time_per_day'] %>&nbsp;minutes.
+  </p>
+  <%= partial 'partials/_everyday-chart' %>
+
+  <!--   <ul>
+    <% data['music-log-by-date'].reverse.each do |entry| %>
+      <% hours, minutes = entry['duration'].divmod(60) %>
+
+      <li>
+        <%= entry['date'] %>: <%= entry['duration'] %> min
+        (<%= hours %>:<%= format('%02d', minutes) %>)
+      </li>
+    <% end %>
+  </ul>
+  <p>
+    Median minutes per session: <%= totals_data['median_time_per_entry'] %>
+    <br>
+    Median minutes per day: <%= totals_data['median_time_per_day'] %>
+  </p> -->
+
+  <h2>Totals and streaks</h2>
+  <p>
+    So far, I’ve spent <%= total_hours %> hours, <%= total_minutes %> minutes in intentional music practice. I don’t count “incidental music” like singing along to songs, going to concerts, or inactive&nbsp;listening.
+  </p>
+
+  <p>
+    My current streak is <%= streaks_data['streaks'].last.length %> days; my longest streak was <%= streaks_data['longest_streak'].length %> days (<%= Date.parse(streaks_data['longest_streak'].first['date']).strftime('%B %-d, %Y') %> to&nbsp;<%= Date.parse(streaks_data['longest_streak'].last['date']).strftime('%B %-d, %Y') %>).
+  </p>
+  <p>
+    The intention is to make it to 1500 days in total (about 4 years), so I’m <%= (total_days / 15.0).round(1) %>% of the way&nbsp;there.
+  </p>
+  <div class="totals-vis">
+    <div class="totals-vis__graph">
+      <div class="totals-vis__graph-outline"></div>
+      <div class="totals-vis__completed-area" style="width: <%= (total_days / 15.0).round(1) %>%;">
+        <svg viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" aria-labelledby="totals-vis__completed-area-desc">
+          <desc id="totals-vis__completed-area-desc">Smiley face inside an area showing <%= (total_days / 15.0).round(1) %>% completion</desc>
+          <path d="M3 2v3M11 2v3M4 8.5c0 1.7 1.3 3 3 3s3-1.3 3-3"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <h2>Time of day</h2>
+  <p>
+    This graph shows what percentage of my practice entries included a particular minute of the day (20-min rolling average). The most common time for me to be practicing is around&nbsp;<%= totals_data.top_time %>.
+  </p>
+  <%= partial 'partials/_bar-chart' %>
+
+  <h2>Tags</h2>
+  <p>
+    Each practice entry includes a general description and tags. My most-used tag has always tended to be “improv,” which is a catch-all for unstructured&nbsp;noodling.
+  </p>
+  <p>
+    These are all the tags I’ve used, sorted by total time. Since an entry can have more than one tag, they aren’t necessarily exclusive from each&nbsp;other.
+  </p>
+  <div class="inline-tags">
+    <% inline_tags.reverse.each do |tag| %><span class="inline-tags__tag"><span class="inline-tags__name"><%= tag[0] %><span class="screenreader-only">, <%= tag[2] %>%</span></span><span class="inline-tags__vis inline-tags__vis--desktop" style="width: <%= tag[1] %>px;"></span><span class="inline-tags__vis inline-tags__vis--mobile" style="width: <%= tag[3] %>px;"></span></span><% end %>
+  </div>
+  <!--
+    <p>
+      Here’s the same thing but with which instrument(s) each entry was tagged with.
+    </p>
+    <div class="inline-tags">
+      <% inline_instruments.reverse.each do |tag| %><span class="inline-tags__tag"><span class="inline-tags__name"><%= tag[0] %></span><span class="inline-tags__vis" style="width: <%= tag[1] %>px;"></span></span><% end %>
+    </div>
+  -->
+
+  <%# <h2>Fine print</h2>
+  <p>
+    (rules for myself)
+    - maybe call out the statistics hidden in paragraph text with a separate color ?
+  </p> %>
+
+  <h2>Data dump</h2>
+  <p>
+    I haven’t found any other interesting information in my music log so far, but you might! Hover over a date to see that day’s details, or use one of the filters&nbsp;below.
+  </p>
+  <div class="d3-vis__actions">
+    <label>
+      Filter by text:
+      <input type="text" id="calendar-text-filter">
+    </label>
+    <label>
+      Instrument:
+      <select id="calendar-instrument">
+          <option value="all" selected>All</option>
+        <% inline_instruments.reverse.each do |instrument| %>
+          <option value="<%= instrument[0] %>"><%= instrument[0] %></option>
+        <% end %>
+      </select>
+      <svg viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false">
+        <polyline points="4 4 7 2 10 4"></polyline>
+        <polyline points="4,10 7,12 10,10"></polyline>
+      </svg>
+    </label>
+    <label>
+      Tags:
+      <select id="calendar-tag">
+          <option value="all" selected>All</option>
+        <% inline_tags.reverse.each do |tag| %>
+          <option value="<%= tag[0] %>"><%= tag[0] %></option>
+        <% end %>
+      </select>
+      <svg viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false">
+        <polyline points="4 4 7 2 10 4"></polyline>
+        <polyline points="4,10 7,12 10,10"></polyline>
+      </svg>
+    </label>
+    <input type="checkbox" class="d3-vis__guide-checkbox" id="hide-improv-entries">
+    <label for="hide-improv-entries">
+      <div class="d3-vis__checkbox-image">
+        <svg viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <polyline points="4 9 6 11 10 3"></polyline>
+        </svg>
+      </div>
+      Ignore entries that only say “improv” :)
+    </label>
+  </div>
+  <div class="data-dump-calendar">
+    <% data_dump_calendar.sort.each do |year| %>
+      <% year[1].sort.each_with_index do |month, i| %>
+        <div class="data-dump-calendar__month">
+          <h3 class="data-dump-calendar__month-label">
+            <%= Date.parse('2020-' + month[0] + '-01').strftime('%B') %>
+            <% if i == 0 %>
+              <%= year[0] %>
+            <% else %>
+              <span class="screenreader-only"><%= year[0] %></span>
+            <% end %>
+          </h3>
+          <% if year[0] == '2019' and i == 0 %>
+            <!-- Include spacer weeks for the first month -->
+            <div class="data-dump-calendar__week">
+              <% (0..6).each do |day_of_the_week| %>
+                <div class="data-dump-calendar__day data-dump-calendar__day--placeholder">
+                </div>
+              <% end %>
+            </div>
+            <div class="data-dump-calendar__week">
+              <% (0..6).each do |day_of_the_week| %>
+                <div class="data-dump-calendar__day data-dump-calendar__day--placeholder">
+                </div>
+              <% end %>
+            </div>
+            <div class="data-dump-calendar__week">
+              <% (0..6).each do |day_of_the_week| %>
+                <div class="data-dump-calendar__day data-dump-calendar__day--placeholder">
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+          <% month[1].sort.each_with_index do |week, j| %>
+            <div class="data-dump-calendar__week">
+              <% (0..6).each do |day_of_the_week| %>
+                <% day_id = 'day--' + year[0] + '-' + month[0] + '-' + j.to_s + '-' + day_of_the_week.to_s %>
+                <div class="data-dump-calendar__day-wrapper">
+                  <div
+                    class="data-dump-calendar__day active <% if week[1][day_of_the_week] %><%= week[1][day_of_the_week][0]['start_time'] != '' ? 'data-dump-calendar__day--with-entry' : 'data-dump-calendar__day--no-entry' %><% else %>data-dump-calendar__day--placeholder<% end %>"
+                    <% if week[1][day_of_the_week] %>
+                      data-day-ids="<%= week[1][day_of_the_week].map { |entry| entry['id'] }.join(',') %>"
+                      tabindex="0"
+                      aria-describedby="<%= day_id %>"
+                    <% end %>
+                  >
+                    <% if week[1][day_of_the_week] %>
+                      <span class="screenreader-only">
+                        <%= Date.parse(week[1][day_of_the_week][0].date).strftime('%B %-d, %Y') %>
+                      </span>
+                    <% end %>
+                  </div>
+                  <% if week[1][day_of_the_week] %>
+                    <div class="data-dump-calendar__details-pane" id="<%= day_id %>">
+                      <% if week[1][day_of_the_week][0]['start_time'] == '' %>
+                        I didn’t practice this day&hellip;
+                      <% else %>
+                        <% week[1][day_of_the_week].each_with_index do |entry, i| %>
+                          <% start_time = Time.parse('2000/1/1 ' + entry.start_time) %>
+                          <% end_time = start_time + entry.duration * 60 %>
+
+                          <% if i > 0 %>
+                            <hr class="data-dump-calendar__details-separator">
+                          <% end %>
+
+                          <div class="data-dump-calendar__details-heading">
+                            <% if i == 0 %>
+                              <span aria-hidden="true">
+                                <%= Date.parse(entry.date).strftime('%B %-d, %Y') %>
+                              </span>
+                              <br>
+                            <% end %>
+                            <%= start_time.strftime('%l:%M%P').strip %>–<%= end_time.strftime('%l:%M%P').strip %>
+                            (<%= entry.duration %> min)
+                          </div>
+                          <div class="data-dump-calendar__description">
+                            <%= entry.description %>
+                          </div>
+                          instrument: <%= entry.instrument.join(', ') %>
+                          <br>
+                          tagged: <%= (entry.tags - ['worship']).join(', ') %>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+            <% if j == month[1].sort.size - 1 and j < 5 and not (year[0] == '2019' and i == 0) %>
+              <!-- Include a spacer week for short months -->
+              <div class="data-dump-calendar__week">
+                <% (0..6).each do |day_of_the_week| %>
+                  <div class="data-dump-calendar__day data-dump-calendar__day--placeholder">
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

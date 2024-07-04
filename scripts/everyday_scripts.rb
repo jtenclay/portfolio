@@ -5,7 +5,7 @@ require 'json'
 
 def sync_everyday_log
   session = GoogleDrive::Session.from_service_account_key('data/service-account.json')
-  rows = session.spreadsheet_by_key(ENV['GOOGLE_EVERYDAY_SPREADSHEET_ID']).worksheets[0].rows
+  rows = session.spreadsheet_by_key(ENV['GOOGLE_EVERYDAY_SPREADSHEET_ID']).worksheets[1].rows
 
   entries = Array.new
 
