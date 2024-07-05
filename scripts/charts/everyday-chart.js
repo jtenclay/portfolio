@@ -6,6 +6,7 @@ const erbLayout = fs.readFileSync('source/partials/_everyday-chart-layout.erb');
 
 // Format data into weeks
 const weekData = [{
+  date: rawLogData[0].date,
   bikeMiles: 0,
   wandrerMiles: 0,
 }];
@@ -16,6 +17,7 @@ rawLogData.forEach(dayEntry => {
   if (date.getDay() === 1) {
     // If it's a Monday, start a new week
     week = {
+      date: dayEntry.date,
       bikeMiles: 0,
       wandrerMiles: 0,
     };
@@ -62,10 +64,6 @@ const y = D3Node.d3.scaleLinear()
   .domain([0, D3Node.d3.max(data, d => d.y)]).nice()
   .range([height, 0]);
 
-const croppedY = D3Node.d3.scaleLinear()
-  .domain([0, 120]).nice()
-  .range([height, 0]);
-
 // Draw the area
 const area = D3Node.d3.area()
   .curve(D3Node.d3.curveStepBefore)
@@ -91,10 +89,6 @@ const yAxis = g => g
   .call(D3Node.d3.axisLeft(y)
     .ticks(4));
 
-const croppedYAxis = g => g
-  .call(D3Node.d3.axisLeft(croppedY)
-    .ticks(4));
-
 // Reformat axes
 
 function reformatYAxis(axis, selector) {
@@ -110,21 +104,16 @@ function reformatYAxis(axis, selector) {
       const transformY = D3Node.d3.select(nodes[i]).attr('transform').match(/,([\d.]*)\)/)[1];
       const topY = parseInt(transformY, 10) / 900 * 100;
 
-      // Format hours and minutes
-      const hours = Math.floor(d / 60);
-      const minutes = d % 60;
-
       yAxisEl.append('div')
-        .attr('class', 'd3-vis__y-tick')
-        .style('top', topY + '%')
-        .append('div')
-        .attr('class', 'd3-vis__y-tick-text')
-        .text(`${hours}:${minutes > 9 ? minutes : '0' + minutes}`);
+      .attr('class', 'd3-vis__y-tick')
+      .style('top', topY + '%')
+      .append('div')
+      .attr('class', 'd3-vis__y-tick-text')
+      .text(d + 'mi\xa0');
     });
 }
 
 reformatYAxis(yAxis, '.d3-vis__y-axis--uncropped');
-reformatYAxis(croppedYAxis, '.d3-vis__y-axis--cropped');
 
 const xAxisEl = D3Node.d3.select(d3n.document.querySelector('.d3-vis__x-axis'));
 
@@ -150,23 +139,6 @@ D3Node.d3.select(d3n.document).selectAll('.temp')
 
 // Prep output
 const output = d3n.html().replace(/(<\/?html>)|(<\/?head>)|(<\/?body>)/g, '');
-
-// const layoutWithFullGraph = createChart(erbLayout, null, '.d3-vis--time-by-date');
-// const layoutWithBothGraphs = createChart(layoutWithFullGraph, 120, '.d3-vis--time-by-date-cropped');
-
-const scaleAmount = D3Node.d3.scaleLinear()
-  .domain([0, D3Node.d3.max(data, d => d.y)])
-  .nice()
-  .domain()[1] / 120;
-
-const finalOutput = output + `
-  <style type="text/css">
-    .d3-vis--cropped-graph .d3-vis__chart svg path {
-      transform: scaleY(${scaleAmount});
-    }
-  </style>
-`;
-
 
 // Write to file
 fs.writeFile('source/partials/_everyday-chart.html.erb', finalOutput, (err) => {
