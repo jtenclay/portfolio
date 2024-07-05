@@ -113,7 +113,7 @@ function reformatYAxis(axis, selector) {
     });
 }
 
-reformatYAxis(yAxis, '.d3-vis__y-axis--uncropped');
+reformatYAxis(yAxis, '.d3-vis__y-axis');
 
 const xAxisEl = D3Node.d3.select(d3n.document.querySelector('.d3-vis__x-axis'));
 
