@@ -141,7 +141,7 @@ D3Node.d3.select(d3n.document).selectAll('.temp')
 const output = d3n.html().replace(/(<\/?html>)|(<\/?head>)|(<\/?body>)/g, '');
 
 // Write to file
-fs.writeFile('source/partials/_everyday-chart.html.erb', finalOutput, (err) => {
+fs.writeFile('source/partials/_everyday-chart.html.erb', output, (err) => {
   if (err) console.log(err); // eslint-disable-line no-console
   else console.log('D3 charts created.'); // eslint-disable-line no-console
 });
