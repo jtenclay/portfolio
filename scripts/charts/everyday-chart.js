@@ -47,7 +47,7 @@ containerSVG.append('desc')
   .attr('id', 'everyday-chart-desc');
 
 // Format data
-const data = timeByDateData.map(datum => (
+const data = weekData.map(datum => (
   {
     x: new Date(datum.date),
     y: datum.bikeMiles,
