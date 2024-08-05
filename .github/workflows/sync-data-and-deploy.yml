@@ -1,0 +1,27 @@
+name: Sync from Google Sheets and Deploy
+
+on:
+  schedule:
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+    - id: 'get_worksheet'
+      uses: jroehl/gsheet.action@v2.1.1
+      with:
+        spreadsheetId: ${{ secrets.EXERCISE_SPREADSHEET_ID }}
+        commands: |
+          [
+            { "command": "getData", "args": { "worksheetTitle": "exercise" } }
+          ]
+      env:
+        GSHEET_CLIENT_EMAIL: ${{ secrets.GSHEET_CLIENT_EMAIL }}
+        GSHEET_PRIVATE_KEY: ${{ secrets.GSHEET_PRIVATE_KEY }}
+    - name: dump results
+      env:
+        #  the output of the action can be found in ${{ steps.get_worksheet.outputs.results }}
+        RESULTS: ${{ steps.get_worksheet.outputs.results }}
+      run: echo "$RESULTS" | jq
