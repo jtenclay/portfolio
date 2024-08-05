@@ -15,7 +15,7 @@ jobs:
         spreadsheetId: ${{ secrets.EXERCISE_SPREADSHEET_ID }}
         commands: |
           [
-            { "command": "getData", "args": { "worksheetTitle": "exercise" } }
+            { "command": "getData", "args": { "worksheetTitle": "exercise", "minCol": 1 } }
           ]
       env:
         GSHEET_CLIENT_EMAIL: ${{ secrets.GSHEET_CLIENT_EMAIL }}
