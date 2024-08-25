@@ -9,6 +9,20 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
+
+    - uses: ruby/setup-ruby@v1
+      with:
+      ruby-version: '2.6.8'
+
+    - uses: actions/setup-node@v4
+
+    - name: Set up yarn and install
+        run: |
+          npm install -g yarn
+          yarn
+          bundle install
+
     - id: 'get_worksheet'
       uses: jroehl/gsheet.action@v2.1.1
       with:
@@ -20,6 +34,7 @@ jobs:
       env:
         GSHEET_CLIENT_EMAIL: ${{ secrets.GSHEET_CLIENT_EMAIL }}
         GSHEET_PRIVATE_KEY: ${{ secrets.GSHEET_PRIVATE_KEY }}
+
     - name: dump results
       env:
         #  the output of the action can be found in ${{ steps.get_worksheet.outputs.results }}
