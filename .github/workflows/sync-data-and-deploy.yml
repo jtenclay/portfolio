@@ -18,10 +18,10 @@ jobs:
     - uses: actions/setup-node@v4
 
     - name: Set up yarn and install
-        run: |
-          npm install -g yarn
-          yarn
-          bundle install
+      run: |
+        npm install -g yarn
+        yarn
+        bundle install
 
     - id: 'get_worksheet'
       uses: jroehl/gsheet.action@v2.1.1
